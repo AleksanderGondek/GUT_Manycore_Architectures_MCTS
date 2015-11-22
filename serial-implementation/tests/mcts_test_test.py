@@ -1,7 +1,7 @@
 import unittest
 import pytest
 
-from guterialmcts.mcts_test import MonteCarloGameHandler
+from gutserialmcts.mcts_test import MonteCarloGameHandler
 
 
 @pytest.mark.usefixtures("MonteCarloGameHandler")
