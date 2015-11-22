@@ -1,4 +1,4 @@
-from guterialmcts.mcts_test import test_functio
+from guterialmcts.mcts_test import test_function
 
 
 def test_answer():
