@@ -7,7 +7,9 @@ include_directories(${MPI_INCLUDE_PATH})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES
-        distributed-implementation/preparations/hello.c)
+        # distributed-implementation/preparations/hello.c
+        distributed-implementation/preparations/hellocpp.cpp
+        distributed-implementation/preparations/hellocpp.h)
 
 add_executable(GUT_Manycore_Architectures_MCTS ${SOURCE_FILES})
 target_link_libraries(GUT_Manycore_Architectures_MCTS ${MPI_LIBRARIES})
