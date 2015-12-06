@@ -7,6 +7,7 @@
 #include "MctsNode.h"
 #include "MctsNodeSerializer.h"
 #include "MctsNodeDeserializer.h"
+#include "MctsTreeMerger.h"
 
 bool compareNodesByVisists(const MctsNode &node1, const MctsNode &node2)
 {
@@ -16,6 +17,7 @@ bool compareNodesByVisists(const MctsNode &node1, const MctsNode &node2)
 int uctSort(NimGameState rootState, int maximumIterations)
 {
     MctsNode root(0, NULL, &rootState);
+    MctsNode root2(0, NULL, &rootState);
     for(int i=0; i<maximumIterations; i++)
     {
         MctsNode* node = &root;
@@ -58,24 +60,6 @@ int uctSort(NimGameState rootState, int maximumIterations)
             node->update(state.getValue(node->lastActivePlayer));
             node = node->parentNode;
         }
-
-        // Serialization/Deserialization testing
-        //        std::cout << root.representation()<< std::endl;
-        //        std::string test = MctsNodeSerializer::Serialize(root);
-        //        std::cout << "BEFORE" << std::endl;
-        //        std::cout << test << std::endl;
-        //
-        //
-        //        MctsNode testos = MctsNodeDeserializer::Deserialize(test);
-        //        std::cout << "AFTER" << std::endl;
-        //        std::string testTest = MctsNodeSerializer::Serialize(testos);
-        //        std::cout << testTest << std::endl;
-        //
-        //        if(test != testTest)
-        //        {
-        //            std::cout << "Ooops! This does not match up!" << std::endl;
-        //            return -1;
-        //        }
     }
 
     std::sort(root.childNodes.begin(), root.childNodes.end(), compareNodesByVisists);

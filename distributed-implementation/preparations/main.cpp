@@ -12,10 +12,8 @@ int main(int argc, char* argv[])
     // Uncomment to present valdi game
     // NimGameState gameState(2,400);
 
-    NimGameState gameState(2,12);
-    uctSort(gameState, 50);
+    NimGameState gameState(2,400);
 
-    return 0;
     while(!gameState.getAvailableActions().empty())
     {
         std::cout<< "Main Game State: " << gameState.representation() << std::endl;

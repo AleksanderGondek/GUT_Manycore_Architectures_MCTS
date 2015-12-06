@@ -7,20 +7,17 @@
 
 void BalanceNodes(MctsNode* local, MctsNode* remote)
 {
-    if(local->wins != remote->wins)
-    {
-        int delta = remote->wins - local->wins;
-        local->wins += delta;
-    }
+    //std::cout << "Balacing the following nodes" << std::endl;
+    //std::cout << "Local node: " << local->representation() << std::endl;
+    //std::cout << "Remote node: " << remote->representation() << std::endl;
 
-    if(local->visits != remote->visits)
-    {
-        int delta = remote->visits - local->visits;
-        if(delta > 0) {
-            local->visits += delta;
-        }
-    }
 
+    //std::cout << "Balacing wins" << std::endl;
+    local->wins += remote->wins;
+    //std::cout << "Balacing visits" << std::endl;
+    local->visits += remote->visits;
+
+    //std::cout << "Balancing actions not taken" << std::endl;
     // Compare actions not taken
     // If remote has no actions taken and locally we have some left
     if(remote->actionsNotTaken.size() == 0 && local->actionsNotTaken.size() > 0)
@@ -37,22 +34,38 @@ void BalanceNodes(MctsNode* local, MctsNode* remote)
     else if (remote->actionsNotTaken.size() > 0 && local->actionsNotTaken.size() > 0 &&
             remote->actionsNotTaken.size() != local->actionsNotTaken.size())
     {
+        //std::cout << "Started comparistion of actions not taken" << std::endl;
         // We should ignore actions that we don't have but remote has
         // But we should remove actions that remote has not and we do
         std::vector<int>::iterator it = local->actionsNotTaken.begin();
+        std::vector<int> toBeRemoved;
         while(it != local->actionsNotTaken.end())
         {
+            ////std::cout << "Checking remote: " << *it << std::endl;
             if(std::find(remote->actionsNotTaken.begin(), remote->actionsNotTaken.end(), *it) == remote->actionsNotTaken.end())
             {
-                // If element in local vector was not found in remote
-                it = local->actionsNotTaken.erase(it);
-            }
+                if(*it == 0)
+                {
+                    continue;
+                }
 
+                toBeRemoved.push_back(*it);
+            }
             ++it;
+        }
+
+        for(std::vector<int>::iterator removeIt = toBeRemoved.begin(); removeIt != toBeRemoved.end(); ++removeIt)
+        {
+            local->actionsNotTaken.erase(std::remove(
+                                                 local->actionsNotTaken.begin(),
+                                                 local->actionsNotTaken.end(),
+                                                 *removeIt),
+                                         local->actionsNotTaken.end());
         }
     }
 
 
+    //std::cout << "Balacing children nodes" << std::endl;
     // Merge all remote children
     std::vector<MctsNode>::iterator it = remote->childNodes.begin();
     while(it != remote->childNodes.end())
@@ -71,7 +84,7 @@ void BalanceNodes(MctsNode* local, MctsNode* remote)
         // If child was found
         if(foundElement != NULL)
         {
-            BalanceNodes(&(*it), foundElement);
+            BalanceNodes(foundElement, &(*it));
         }
         //Child was not found
         else
@@ -102,6 +115,5 @@ void MctsTreeMerger::MergeTrees(MctsNode *local, MctsNode *remote)
 {
     MctsNode* localRoot = local;
     MctsNode* remoteRoot = remote;
-
     BalanceNodes(localRoot, remoteRoot);
 }

@@ -24,6 +24,18 @@ std::string prinOutVector(std::vector<int> vect)
     return buffer.str();
 }
 
+std::string prinOutChildrenNodes(std::vector<MctsNode> vect)
+{
+    std::stringstream buffer;
+    buffer << "(";
+    for(std::vector<MctsNode>::iterator it = vect.begin(); it != vect.end(); ++it)
+    {
+        buffer << "[" << it->previousAction << "]" << ",";
+    }
+    buffer << ")";
+    return buffer.str();
+}
+
 MctsNode::MctsNode(int action, MctsNode *parent, NimGameState* state)
 {
     this->wins = 0;
@@ -68,6 +80,7 @@ std::string MctsNode::representation(void)
     << "; Previous action: " << this->previousAction
     << "; Last active player: " << this->lastActivePlayer
     << "; Actions not taken: " << prinOutVector(this->actionsNotTaken)
+    << "; Children nodes: " << prinOutChildrenNodes(this->childNodes)
     << std::endl;
     return buffer.str();
 }
