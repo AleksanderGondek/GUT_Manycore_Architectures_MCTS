@@ -59,16 +59,23 @@ int uctSort(NimGameState rootState, int maximumIterations)
             node = node->parentNode;
         }
 
-        std::cout << root.representation()<< std::endl;
-        std::string test = MctsNodeSerializer::Serialize(root);
-        std::cout << "BEFORE" << std::endl;
-        std::cout << test << std::endl;
-
-
-        MctsNode testos = MctsNodeDeserializer::Deserialize(test);
-        std::cout << "AFTER" << std::endl;
-        std::string testTest = MctsNodeSerializer::Serialize(testos);
-        std::cout << testTest << std::endl;
+        // Serialization/Deserialization testing
+        //        std::cout << root.representation()<< std::endl;
+        //        std::string test = MctsNodeSerializer::Serialize(root);
+        //        std::cout << "BEFORE" << std::endl;
+        //        std::cout << test << std::endl;
+        //
+        //
+        //        MctsNode testos = MctsNodeDeserializer::Deserialize(test);
+        //        std::cout << "AFTER" << std::endl;
+        //        std::string testTest = MctsNodeSerializer::Serialize(testos);
+        //        std::cout << testTest << std::endl;
+        //
+        //        if(test != testTest)
+        //        {
+        //            std::cout << "Ooops! This does not match up!" << std::endl;
+        //            return -1;
+        //        }
     }
 
     std::sort(root.childNodes.begin(), root.childNodes.end(), compareNodesByVisists);

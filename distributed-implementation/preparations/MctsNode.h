@@ -19,6 +19,8 @@ public:
     std::vector<MctsNode> childNodes;
     int lastActivePlayer;
 
+    bool _mergeVisisted = false;
+
     MctsNode* parentNode;
     MctsNode* selectNextChildNode(void);
     MctsNode* addChildNode(int action, NimGameState* state);
