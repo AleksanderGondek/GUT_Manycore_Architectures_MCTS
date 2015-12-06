@@ -8,8 +8,13 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES
         # distributed-implementation/preparations/hello.c
-        distributed-implementation/preparations/hellocpp.cpp
-        distributed-implementation/preparations/hellocpp.h)
+        distributed-implementation/preparations/main.cpp
+        distributed-implementation/preparations/NimGameState.cpp
+        distributed-implementation/preparations/NimGameState.h
+        distributed-implementation/preparations/MctsNode.cpp
+        distributed-implementation/preparations/MctsNode.h
+        distributed-implementation/preparations/UctSortMcts.cpp
+        distributed-implementation/preparations/UtcSortMcts.h)
 
 add_executable(GUT_Manycore_Architectures_MCTS ${SOURCE_FILES})
 target_link_libraries(GUT_Manycore_Architectures_MCTS ${MPI_LIBRARIES})
