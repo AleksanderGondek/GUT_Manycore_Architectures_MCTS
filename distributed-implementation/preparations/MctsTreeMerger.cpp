@@ -58,12 +58,12 @@ void BalanceNodes(MctsNode* local, MctsNode* remote)
     while(it != remote->childNodes.end())
     {
         // Find same node in the local children
-        std::vector<MctsNode>::iterator foundElement= NULL;
+        MctsNode* foundElement = NULL;
         for(std::vector<MctsNode>::iterator localIt = local->childNodes.begin(); localIt != local->childNodes.end(); ++localIt)
         {
             if(localIt->previousAction == it->previousAction)
             {
-                foundElement = localIt;
+                foundElement = &(*localIt);
                 break;
             }
         }
@@ -71,8 +71,7 @@ void BalanceNodes(MctsNode* local, MctsNode* remote)
         // If child was found
         if(foundElement != NULL)
         {
-            MctsNode* element = &(*foundElement);
-            BalanceNodes(&(*it), element);
+            BalanceNodes(&(*it), foundElement);
         }
         //Child was not found
         else
