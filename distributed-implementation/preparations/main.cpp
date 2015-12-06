@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
     // NimGameState gameState(2,400);
 
     NimGameState gameState(2,12);
-    uctSort(gameState, 1);
+    uctSort(gameState, 5);
 
     return 0;
     while(!gameState.getAvailableActions().empty())

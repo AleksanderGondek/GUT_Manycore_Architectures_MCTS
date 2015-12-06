@@ -19,7 +19,7 @@ std::string prinOutVector(std::vector<int> vect)
     std::stringstream buffer;
     for(std::vector<int>::iterator it = vect.begin(); it != vect.end(); ++it)
     {
-        buffer << *it;
+        buffer << *it << ",";
     }
     return buffer.str();
 }

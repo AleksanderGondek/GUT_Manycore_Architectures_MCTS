@@ -92,18 +92,28 @@ MctsNode MctsNodeDeserializer::Deserialize(std::string payload)
         {
             //Fourth in the serialization is actionsNotTaken vector
             // It is serialized as (number,number,...)
+
+            //Remove starting and ending brackets
+            tmp = tmp.substr(1, tmp.length() - 2);
+
             std::string number;
             std::stringstream actionsNotTakenStream(tmp);
 
             // Reading in series of actions not taken
             while(std::getline(actionsNotTakenStream, number, ','))
             {
+                //std::cout<< "Deserialization actionsNoTTaken iteration took: " << number << std::endl;
                 if(number == " ")
                 {
                     continue;
                 }
 
-                actionsNotTaken.push_back(atoi(number.c_str()));
+                int atoiNumber = atoi(number.c_str());
+                // Dirty hack for Cpp retardness
+                if( atoiNumber > 0)
+                {
+                    actionsNotTaken.push_back(atoiNumber);
+                }
             }
         }
 
@@ -189,11 +199,15 @@ MctsNode MctsNodeDeserializer::Deserialize(std::string payload)
 
             //std::cout<< "Deserialization about to start Such WOW Much loop " << std::endl;
 
-            for(unsigned long i = 0; i < tmp.length() - 1; i++)
+            for(unsigned long i = 0; i < tmp.length(); i++)
             {
-                //std::cout<< "Deserialization CHUJ DUPA KURWA CIPA: " << i << "/" << tmp.length()-1 << std::endl;
-                //std::cout<< "Deserialization Such WOW Much loop over tmp: " << tmp << std::endl;
-                //std::cout<< "Deserialization Such WOW Much loop tmp[i]: " << tmp[i] << std::endl;
+                //std::cout<< "Deserialization children itreation: " << i << "/" << tmp.length()-1 << std::endl;
+//                std::cout<< "Deserialization indexOfFirstOpeningBracket: " << indexOfFirstOpeningBracket << std::endl;
+//                std::cout<< "Deserialization indexOfLastClosingBracket: " << indexOfLastClosingBracket << std::endl;
+//                std::cout<< "Deserialization numberOfOpeningSquareBracketsFound: " << numberOfOpeningSquareBracketsFound << std::endl;
+//                std::cout<< "Deserialization numberOfClosingSquareBracketsFound: " << numberOfClosingSquareBracketsFound << std::endl;
+//                std::cout<< "Deserialization Such WOW Much loop over tmp: " << tmp << std::endl;
+//                std::cout<< "Deserialization Such WOW Much loop tmp[i]: " << tmp[i] << std::endl;
                 if(tmp[i] == '[')
                 {
                     if(numberOfOpeningSquareBracketsFound == 0)
@@ -213,9 +227,17 @@ MctsNode MctsNodeDeserializer::Deserialize(std::string payload)
                         && numberOfClosingSquareBracketsFound > 0)
                 {
                     indexOfLastClosingBracket = i;
+//                    std::cout<< "Deserialization indexOfFirstOpeningBracket: " << indexOfFirstOpeningBracket << std::endl;
+//                    std::cout<< "Deserialization indexOfLastClosingBracket: " << indexOfLastClosingBracket << std::endl;
+                    // This is why we can't have nice things
+                    // Glorious and comfy cpp
+                    // Let's go all the way and change substr signature to work with starting postion of copy and
+                    // sqrt(mod(5) of characters length to copy
+                    std::string preview = tmp.substr(indexOfFirstOpeningBracket, (indexOfLastClosingBracket + 1)-indexOfFirstOpeningBracket);
+//                    std::cout << "wuut: " << tmp[i] << std::endl;
+//                    std::cout << "bingo: " << preview << std::endl;
                     // Create node from data
-                    MctsNode child = MctsNodeDeserializer::Deserialize(
-                            tmp.substr(indexOfFirstOpeningBracket, indexOfLastClosingBracket));
+                    MctsNode child = MctsNodeDeserializer::Deserialize(preview);
                     node.childNodes.push_back(child);
 
                     //Reset all

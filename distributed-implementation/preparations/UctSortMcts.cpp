@@ -59,10 +59,11 @@ int uctSort(NimGameState rootState, int maximumIterations)
             node = node->parentNode;
         }
 
-        //std::cout << root.representation()<< std::endl;
+        std::cout << root.representation()<< std::endl;
         std::string test = MctsNodeSerializer::Serialize(root);
         std::cout << "BEFORE" << std::endl;
         std::cout << test << std::endl;
+
 
         MctsNode testos = MctsNodeDeserializer::Deserialize(test);
         std::cout << "AFTER" << std::endl;
