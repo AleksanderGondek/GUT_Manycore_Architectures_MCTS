@@ -18,7 +18,9 @@ set(SOURCE_FILES
         distributed-implementation/preparations/MctsNodeSerializer.cpp
         distributed-implementation/preparations/MctsNodeSerializer.h
         distributed-implementation/preparations/MctsNodeDeserializer.cpp
-        distributed-implementation/preparations/MctsNodeDeserializer.h distributed-implementation/preparations/MctsTreeMerger.cpp distributed-implementation/preparations/MctsTreeMerger.h)
+        distributed-implementation/preparations/MctsNodeDeserializer.h
+        distributed-implementation/preparations/MctsTreeMerger.cpp
+        distributed-implementation/preparations/MctsTreeMerger.h)
 
 add_executable(GUT_Manycore_Architectures_MCTS ${SOURCE_FILES})
 target_link_libraries(GUT_Manycore_Architectures_MCTS ${MPI_LIBRARIES})

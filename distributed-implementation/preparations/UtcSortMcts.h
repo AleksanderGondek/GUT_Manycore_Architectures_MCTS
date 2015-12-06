@@ -5,6 +5,10 @@
 #ifndef GUT_MANYCORE_ARCHITECTURES_MCTS_UTCSORTMCTS_H
 #define GUT_MANYCORE_ARCHITECTURES_MCTS_UTCSORTMCTS_H
 
+// 2^16
+#define DEFAULT_MESSAGE_SIZE 65536
+//65536
+
 #include "MctsNode.h"
 
 bool compareNodesByVisists(const MctsNode &node1, const MctsNode &node2);
