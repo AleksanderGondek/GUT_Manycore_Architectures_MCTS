@@ -20,7 +20,7 @@ std::string SerializeActionsNotTaken(std::vector<int> actionsNotTaken)
 std::string MctsNodeSerializer::Serialize(MctsNode node)
 {
     // Serialization format:
-    // [previousAction;wins;visits;(actionNotTaken,actionNotTaken,...);(childOne, childTwo,...);]
+    // [previousAction;wins;visits;(actionNotTaken,actionNotTaken,...);(childOne|childTwo|...);]
 
     std::stringstream buffer;
     buffer << "["
@@ -33,7 +33,7 @@ std::string MctsNodeSerializer::Serialize(MctsNode node)
             << "(";
             for(std::vector<MctsNode>::iterator it = node.childNodes.begin(); it != node.childNodes.end(); ++it)
             {
-                buffer << Serialize(*it) << ",";
+                buffer << Serialize(*it) << "|";
             }
     buffer << ");]";
     return buffer.str();

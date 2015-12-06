@@ -6,6 +6,7 @@
 #include <vector>
 #include "MctsNode.h"
 #include "MctsNodeSerializer.h"
+#include "MctsNodeDeserializer.h"
 
 bool compareNodesByVisists(const MctsNode &node1, const MctsNode &node2)
 {
@@ -60,8 +61,13 @@ int uctSort(NimGameState rootState, int maximumIterations)
 
         //std::cout << root.representation()<< std::endl;
         std::string test = MctsNodeSerializer::Serialize(root);
-        //std::cout << "SEX" << std::endl;
+        std::cout << "BEFORE" << std::endl;
         std::cout << test << std::endl;
+
+        MctsNode testos = MctsNodeDeserializer::Deserialize(test);
+        std::cout << "AFTER" << std::endl;
+        std::string testTest = MctsNodeSerializer::Serialize(testos);
+        std::cout << testTest << std::endl;
     }
 
     std::sort(root.childNodes.begin(), root.childNodes.end(), compareNodesByVisists);

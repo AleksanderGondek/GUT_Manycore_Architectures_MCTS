@@ -32,8 +32,11 @@ MctsNode::MctsNode(int action, MctsNode *parent, NimGameState* state)
     this->previousAction = action;
     this->parentNode = parent;
 
-    this->actionsNotTaken = state->getAvailableActions();
-    this->lastActivePlayer = state->lastActivePlayer;
+    if(state != NULL)
+    {
+        this->actionsNotTaken = state->getAvailableActions();
+        this->lastActivePlayer = state->lastActivePlayer;
+    }
 }
 
 MctsNode* MctsNode::selectNextChildNode(void)
