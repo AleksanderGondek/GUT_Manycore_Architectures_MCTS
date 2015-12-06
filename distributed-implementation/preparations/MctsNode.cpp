@@ -9,6 +9,11 @@
 
 bool compareNodesUcb(const MctsNode &node1, const MctsNode &node2)
 {
+    if(node1.wins < 0 || node1.visits < 0 || node2.visits < 0 || node2.wins < 0)
+    {
+        std::cout << "KUTAS" << std::endl;
+    }
+
     int node1key = (int)(node1.wins / node1.visits + sqrt(2 * log(node2.visits / node1.visits)));
     int node2key = (int)(node2.wins / node2.visits + sqrt(2 * log(node1.visits / node2.visits)));
     return (node1key < node2key);

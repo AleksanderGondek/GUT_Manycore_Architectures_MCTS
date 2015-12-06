@@ -32,6 +32,11 @@ int uctSort(NimGameState rootState, int maximumIterations, bool useRanks)
         MctsNode* node = &root;
         NimGameState state = rootState.clone();
 
+
+        if(world_rank == 0)
+        {
+            std::cout << "iteration: " << i << " Use ranks: " << useRanks <<  std::endl;
+        }
         // std::cout<< "Copy Repr " << node->representation() << std::endl;
 
         while(node->actionsNotTaken.empty() && !node->childNodes.empty())
@@ -39,6 +44,11 @@ int uctSort(NimGameState rootState, int maximumIterations, bool useRanks)
             // std::cout<< "Entering Selection Step" << std::endl;
             node = node->selectNextChildNode();
             state.performAction(node->previousAction);
+        }
+
+        if(world_rank == 0)
+        {
+            std::cout << "murloc" << std::endl;
         }
 
         if(!node->actionsNotTaken.empty())
@@ -55,12 +65,22 @@ int uctSort(NimGameState rootState, int maximumIterations, bool useRanks)
             // std::cout<< node->representation() << std::endl;
         }
 
+        if(world_rank == 0)
+        {
+            std::cout << "murloc" << std::endl;
+        }
+
         while(!state.getAvailableActions().empty())
         {
             // std::cout<< "Entering Simulation Step" << std::endl;
             std::random_shuffle(node->actionsNotTaken.begin(), node->actionsNotTaken.end());
             int action = node->actionsNotTaken.back();
             state.performAction(action);
+        }
+
+        if(world_rank == 0)
+        {
+            std::cout << "murloc" << std::endl;
         }
 
         while(node->parentNode != NULL)
@@ -70,6 +90,11 @@ int uctSort(NimGameState rootState, int maximumIterations, bool useRanks)
             node = node->parentNode;
         }
 
+        if(world_rank == 0)
+        {
+            std::cout << "murloc" << std::endl;
+        }
+
         if(useRanks)
         {
             // Root synchronization
@@ -77,7 +102,7 @@ int uctSort(NimGameState rootState, int maximumIterations, bool useRanks)
             serialized += "#";
             if (world_rank == 0)
             {
-                //std::cout << "Sending:" << serialized.length() << "/" << DEFAULT_MESSAGE_SIZE << std::endl;
+                std::cout << "Sending:" << serialized.length() << "/" << DEFAULT_MESSAGE_SIZE << std::endl;
             }
 
             if (serialized.length() > DEFAULT_MESSAGE_SIZE)
@@ -86,12 +111,24 @@ int uctSort(NimGameState rootState, int maximumIterations, bool useRanks)
                 std::cout << "Seralized tree is too big!" << std::endl;
                 return -1;
             }
+
+            if(world_rank == 0)
+            {
+                std::cout << "murloc" << std::endl;
+            }
+
             if (serialized.length() < DEFAULT_MESSAGE_SIZE)
             {
                 serialized.resize(DEFAULT_MESSAGE_SIZE, '@');
             }
 
+            if(world_rank == 0)
+            {
+                std::cout << "murloc" << std::endl;
+            }
+
             char *rcv_buffer = new char[DEFAULT_MESSAGE_SIZE * world_size];
+
             MPI_Allgather(serialized.c_str(), DEFAULT_MESSAGE_SIZE, MPI::CHAR,
                           rcv_buffer, DEFAULT_MESSAGE_SIZE, MPI::CHAR,
                           MPI_COMM_WORLD);

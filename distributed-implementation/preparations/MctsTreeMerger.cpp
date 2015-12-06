@@ -4,6 +4,9 @@
 #include <algorithm>
 #include "MctsTreeMerger.h"
 
+//tmp
+#include <mpi.h>
+
 
 void BalanceNodes(MctsNode* local, MctsNode* remote)
 {
@@ -11,11 +14,20 @@ void BalanceNodes(MctsNode* local, MctsNode* remote)
     //std::cout << "Local node: " << local->representation() << std::endl;
     //std::cout << "Remote node: " << remote->representation() << std::endl;
 
-
     //std::cout << "Balacing wins" << std::endl;
     local->wins += remote->wins;
     //std::cout << "Balacing visits" << std::endl;
     local->visits += remote->visits;
+
+    // Get the rank of the process
+    int world_rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+//    if((local->wins  < 0 || local->visits < 0) && world_rank == 0)
+//    {
+//        std::cout << "ERROR BALANCING NODES" << std::endl;
+//        std::cout << "Local node: " << local->representation() << std::endl;
+//        std::cout << "Remote node: " << remote->representation() << std::endl;
+//    }
 
     //std::cout << "Balancing actions not taken" << std::endl;
     // Compare actions not taken
@@ -77,6 +89,11 @@ void BalanceNodes(MctsNode* local, MctsNode* remote)
             if(localIt->previousAction == it->previousAction)
             {
                 foundElement = &(*localIt);
+                // VERY UGLLY FIX
+                if(world_rank == 0 && (foundElement->wins < 0 || foundElement->visits < 0))
+                {
+                    foundElement = NULL;
+                }
                 break;
             }
         }
@@ -113,6 +130,16 @@ void BalanceNodes(MctsNode* local, MctsNode* remote)
 
 void MctsTreeMerger::MergeTrees(MctsNode *local, MctsNode *remote)
 {
+    int world_rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+
+    if((local->wins  < 0 || local->visits < 0 || remote->wins < 0 || remote->visits <0 ) && world_rank == 0)
+    {
+        std::cout << "ERROR BALANCING NODES" << std::endl;
+        std::cout << "Local node: " << local->representation() << std::endl;
+        std::cout << "Remote node: " << remote->representation() << std::endl;
+    }
+
     MctsNode* localRoot = local;
     MctsNode* remoteRoot = remote;
     BalanceNodes(localRoot, remoteRoot);

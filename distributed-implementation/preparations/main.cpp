@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
         if (gameState.lastActivePlayer == 1)
         {
             // Last player was no 1, so it's player 2 turn
-            action = uctSort(gameState, 20, true);
+            action = uctSort(gameState, 20, false);
         }
         else
         {
