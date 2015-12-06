@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
     // Uncomment to present valdi game
     //NimGameState gameState(2,400);
 
-    NimGameState gameState(2, 400);
+    NimGameState gameState(2, 40);
 
     while (!gameState.getAvailableActions().empty())
     {
@@ -33,12 +33,12 @@ int main(int argc, char* argv[])
         if (gameState.lastActivePlayer == 1)
         {
             // Last player was no 1, so it's player 2 turn
-            action = uctSort(gameState, 10);
+            action = uctSort(gameState, 20, true);
         }
         else
         {
             // Last player was no 2 so it's player 1 turn
-            action = uctSort(gameState, 10);
+            action = uctSort(gameState, 20, true);
         }
 
         if(world_rank == 0)

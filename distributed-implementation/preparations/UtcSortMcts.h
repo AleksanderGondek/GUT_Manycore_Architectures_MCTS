@@ -12,6 +12,6 @@
 #include "MctsNode.h"
 
 bool compareNodesByVisists(const MctsNode &node1, const MctsNode &node2);
-int uctSort(NimGameState rootState, int maximumIterations);
+int uctSort(NimGameState rootState, int maximumIterations, bool useRanks);
 
 #endif //GUT_MANYCORE_ARCHITECTURES_MCTS_UTCSORTMCTS_H
