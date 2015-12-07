@@ -15,13 +15,39 @@ void BalanceNodes(MctsNode* local, MctsNode* remote)
     //std::cout << "Remote node: " << remote->representation() << std::endl;
 
     //std::cout << "Balacing wins" << std::endl;
+
+//    int winsDelta = local->wins - remote->wins;
+//    if(winsDelta > 0)
+//    {
+//        // If remote has less wins in this node, adjust this nodes wins down
+//        local->wins -= winsDelta;
+//    }
+//    else if (winsDelta < 0)
+//    {
+//        // IF remote has more wins in this node, adjust this node wins up
+//        local->wins += winsDelta;
+//    }
+//
+//
+//    int visitsDelta = local->visits - remote->visits;
+//    if(visitsDelta > 0)
+//    {
+//        // If remote has less wins in this node, adjust this nodes wins down
+//        local->visits -= visitsDelta;
+//    }
+//    else if (visitsDelta < 0)
+//    {
+//        // IF remote has more wins in this node, adjust this node wins up
+//        local->visits += visitsDelta;
+//    }
+
     local->wins += remote->wins;
     //std::cout << "Balacing visits" << std::endl;
     local->visits += remote->visits;
 
     // Get the rank of the process
-    int world_rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+//    int world_rank;
+//    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 //    if((local->wins  < 0 || local->visits < 0) && world_rank == 0)
 //    {
 //        std::cout << "ERROR BALANCING NODES" << std::endl;
@@ -89,11 +115,6 @@ void BalanceNodes(MctsNode* local, MctsNode* remote)
             if(localIt->previousAction == it->previousAction)
             {
                 foundElement = &(*localIt);
-                // VERY UGLLY FIX
-                if(world_rank == 0 && (foundElement->wins < 0 || foundElement->visits < 0))
-                {
-                    foundElement = NULL;
-                }
                 break;
             }
         }

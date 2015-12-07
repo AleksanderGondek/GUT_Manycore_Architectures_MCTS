@@ -80,7 +80,7 @@ MctsNode MctsNodeDeserializer::Deserialize(std::string payload)
         {
             // Second in the serialization is wins quantity
             wins = atoi(tmp.c_str());
-            if(wins < 0)
+            if(wins < 0 || wins > 8000)
             {
                 std::cout << "ERROR FOR READING IN" << payload << std::endl;
                 std::cout << "ERROR CDN: TMP: " << tmp << std::endl;
@@ -91,7 +91,7 @@ MctsNode MctsNodeDeserializer::Deserialize(std::string payload)
         {
             // Third in the serialization is visits quantity
             visits = atoi(tmp.c_str());
-            if(visits < 0)
+            if(visits < 0 || visits > 8000)
             {
                 std::cout << "ERROR FOR READING IN" << payload << std::endl;
                 std::cout << "ERROR CDN: TMP: " << tmp << std::endl;

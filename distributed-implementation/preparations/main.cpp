@@ -19,8 +19,7 @@ int main(int argc, char* argv[])
     // IMPORTANT!: if number of chips mod 4 == 0, second player should win (optimal)
     // Uncomment to present valdi game
     //NimGameState gameState(2,400);
-
-    NimGameState gameState(2, 40);
+    NimGameState gameState(2, 400);
 
     while (!gameState.getAvailableActions().empty())
     {
@@ -33,7 +32,7 @@ int main(int argc, char* argv[])
         if (gameState.lastActivePlayer == 1)
         {
             // Last player was no 1, so it's player 2 turn
-            action = uctSort(gameState, 20, false);
+            action = uctSort(gameState, 3, false);
         }
         else
         {
