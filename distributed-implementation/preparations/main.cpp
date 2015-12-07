@@ -16,10 +16,11 @@ int main(int argc, char* argv[])
     int world_rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
-    // IMPORTANT!: if number of chips mod 4 == 0, second player should win (optimal)
+    // IMPORTANT!: if number of chips mod (k + 1) == 0, second player should win (optimal)
+    // Where k is the maximum number of chips allowed to draw at once
     // Uncomment to present valdi game
     //NimGameState gameState(2,400);
-    NimGameState gameState(2, 400);
+    NimGameState gameState(2, 200);
 
     while (!gameState.getAvailableActions().empty())
     {
@@ -32,12 +33,12 @@ int main(int argc, char* argv[])
         if (gameState.lastActivePlayer == 1)
         {
             // Last player was no 1, so it's player 2 turn
-            action = uctSort(gameState, 3, false);
+            action = uctSort(gameState, 10, false);
         }
         else
         {
             // Last player was no 2 so it's player 1 turn
-            action = uctSort(gameState, 20, true);
+            action = uctSort(gameState, 10, true);
         }
 
         if(world_rank == 0)

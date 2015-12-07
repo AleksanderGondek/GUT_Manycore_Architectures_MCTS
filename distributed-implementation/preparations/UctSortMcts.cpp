@@ -70,7 +70,8 @@ int uctSort(NimGameState rootState, int maximumIterations, bool useRanks)
         }
     }
 
-    if(useRanks)
+
+    if(useRanks && world_size > 1)
     {
         // Root synchronization
         std::string serialized = MctsNodeSerializer::Serialize(root);
@@ -98,6 +99,7 @@ int uctSort(NimGameState rootState, int maximumIterations, bool useRanks)
         MPI_Allgather(serialized.c_str(), DEFAULT_MESSAGE_SIZE, MPI::CHAR,
                       rcv_buffer, DEFAULT_MESSAGE_SIZE, MPI::CHAR,
                       MPI_COMM_WORLD);
+
 
         std::string received(rcv_buffer, (unsigned long) (DEFAULT_MESSAGE_SIZE * world_size));
         delete rcv_buffer;
