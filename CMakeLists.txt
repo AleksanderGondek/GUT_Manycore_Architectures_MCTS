@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 3.3)
+cmake_minimum_required(VERSION 2.8)
 project(GUT_Manycore_Architectures_MCTS)
 
 find_package(MPI REQUIRED)
 include_directories(${MPI_INCLUDE_PATH})
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mmic -DMPICH_IGNORE_CXX_SEEK -std=c++0x")
 
 set(SOURCE_FILES
         # distributed-implementation/preparations/hello.c

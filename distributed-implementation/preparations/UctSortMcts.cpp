@@ -96,7 +96,7 @@ int uctSort(NimGameState rootState, int maximumIterations, bool useRanks)
 
         char *rcv_buffer = new char[DEFAULT_MESSAGE_SIZE * world_size];
 
-        MPI_Allgather(serialized.c_str(), DEFAULT_MESSAGE_SIZE, MPI::CHAR,
+        MPI_Allgather((void*)serialized.c_str(), DEFAULT_MESSAGE_SIZE, MPI::CHAR,
                       rcv_buffer, DEFAULT_MESSAGE_SIZE, MPI::CHAR,
                       MPI_COMM_WORLD);
 

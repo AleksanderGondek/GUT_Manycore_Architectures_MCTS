@@ -2,6 +2,7 @@
 // Created by agondek on 12/6/15.
 //
 #include <algorithm>
+#include <vector>
 #include "MctsTreeMerger.h"
 
 //tmp

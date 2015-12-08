@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <sstream>
 #include <vector>
+#include <cmath>
 #include "MctsNode.h"
 
 bool compareNodesUcb(const MctsNode &node1, const MctsNode &node2)
@@ -14,8 +15,8 @@ bool compareNodesUcb(const MctsNode &node1, const MctsNode &node2)
         std::cout << "Too big numbers" << std::endl;
     }
 
-    int node1key = (int)(node1.wins / node1.visits + sqrt(2 * log(node2.visits / node1.visits)));
-    int node2key = (int)(node2.wins / node2.visits + sqrt(2 * log(node1.visits / node2.visits)));
+    int node1key = (int)(node1.wins / node1.visits + std::sqrt(2 * std::log(node2.visits / node1.visits)));
+    int node2key = (int)(node2.wins / node2.visits + std::sqrt(2 * std::log(node1.visits / node2.visits)));
     return (node1key < node2key);
 }
 
