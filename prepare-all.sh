@@ -5,6 +5,9 @@ source /opt/intel/impi/4.1.3.048/intel64/bin/mpivars.sh
 export I_MPI_MIC=on
 export I_MPI_FABRICS=shm:tcp
 
+# Enable hydra debug
+export I_MPI_HYDRA_DEBUG=1
+
 echo "The following dir has not student01 access"
 echo $I_MPI_ROOT
 
