@@ -7,6 +7,8 @@ This directory contains parallel and distributed implementation of _Monte Carlo 
 Required packages for local (not Xeon Phi) development and testing on Fedora OS
 
 ```bash
+sudo dnf install gcc
+
 sudo dnf install gcc-g++
 
 sudo dnf install mpich2

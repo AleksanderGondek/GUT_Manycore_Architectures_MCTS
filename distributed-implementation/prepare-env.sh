@@ -1,6 +1,11 @@
-source /opt/intel/impi/4.1.3.048/intel64/bin/mpivars.sh
+#!/bin/zsh
 
-# Test is everything works correctly
-which mpiicc
-which mpirun
+sudo dnf install gcc-g++
 
+sudo dnf install gcc-g++
+
+sudo dnf install mpich2
+
+sudo dnf install mpich2-devel
+
+sudo dnf install mpich2-autoload
