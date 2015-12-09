@@ -4,8 +4,6 @@
 
 #include <algorithm>
 #include <sstream>
-#include <vector>
-#include <stdlib.h>
 #include "MctsNodeDeserializer.h"
 
 unsigned long GetIndexOfFirstNthElementInString(std::string text, char characterToFind, int n)

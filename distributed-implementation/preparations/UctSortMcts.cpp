@@ -4,7 +4,6 @@
 #include <iostream>
 #include <algorithm>
 #include <sstream>
-#include <vector>
 #include <mpi.h>
 #include "MctsNode.h"
 #include "MctsNodeSerializer.h"
