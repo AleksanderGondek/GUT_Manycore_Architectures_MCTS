@@ -17,7 +17,10 @@
 #include <mpi.h>
 
 // Constants definitions
-#define DEFAULT_MESSAGE_SIZE 65536 // Maximum size of MPI Message to be send - currently 2^16
+#define MCTS_PLAYER_ONE_ID 1
+#define MCTS_PLAYER_TWO_ID 2
+
+#define MCTS_DEFAULT_MESSAGE_SIZE 65536 // Maximum size of MPI Message to be send - currently 2^16
 // TODO: Lower the size
 
 #endif //GUT_MANYCORE_ARCHITECTURES_MCTS_MCTSCOMMONHEADER_H

@@ -27,7 +27,10 @@ set(SOURCE_FILES
         distributed-implementation/preparations/MctsNodeDeserializer.cpp
         distributed-implementation/preparations/MctsNodeDeserializer.h
         distributed-implementation/preparations/MctsTreeMerger.cpp
-        distributed-implementation/preparations/MctsTreeMerger.h distributed-implementation/source/MctsCommon.h)
+        distributed-implementation/preparations/MctsTreeMerger.h
+        distributed-implementation/source/MctsCommon.h
+        distributed-implementation/source/games/NimGameState.cpp
+        distributed-implementation/source/games/NimGameState.h)
 
 add_executable(GUT_Manycore_Architectures_MCTS ${SOURCE_FILES})
 target_link_libraries(GUT_Manycore_Architectures_MCTS ${MPI_LIBRARIES})
