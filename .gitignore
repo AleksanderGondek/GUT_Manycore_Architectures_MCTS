@@ -1,5 +1,15 @@
 distributed-implementation/runable/*
 
+# CMake related
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Makefile
+cmake_install.cmake
+install_manifest.txt
+
+# Pycharm, CLion and Python related
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
