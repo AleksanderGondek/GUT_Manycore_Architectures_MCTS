@@ -1,4 +1,4 @@
-distributed-implementation/runable/*
+distributed-implementation/runnable/*
 
 # CMake related
 CMakeCache.txt
