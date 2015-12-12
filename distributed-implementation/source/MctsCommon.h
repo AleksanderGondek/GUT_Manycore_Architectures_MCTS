@@ -12,6 +12,7 @@
 #include <iostream>
 #include <limits>
 #include <sstream>
+#include <unordered_map>
 #include <vector>
 
 // Includes for MPI

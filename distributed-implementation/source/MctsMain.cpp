@@ -23,12 +23,12 @@ int main(int argc, char* argv[])
     // Where k is the maximum number of _chips allowed to draw at once
     // Uncomment to present a valid game
     // Mcts::GameStates::NimGameState gameState(2,400);
-    Mcts::GameStates::NimGameState gameState(2, 400);
+    Mcts::GameStates::NimGameState gameState(MCTS_PLAYER_TWO_ID, 400);
 
     while (!gameState.getAvailableActions().empty())
     {
         std::string action;
-        if (gameState.getLastActivePlayer() == 1)
+        if (gameState.getLastActivePlayer() == MCTS_PLAYER_ONE_ID)
         {
             // Last player was no 1, so it's player 2 turn
             action = Mcts::Playouts::getBestMoveUsingUtcSort(gameState, 30);
@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
 
     if(world_rank == 0)
     {
-        if (gameState.getStateValue(gameState.getLastActivePlayer()) == 1)
+        if (gameState.getStateValue(gameState.getLastActivePlayer()) == MCTS_PLAYER_ONE_ID)
         {
             std::cout << gameState.getLastActivePlayer() << " wins" << std::endl;
         }
