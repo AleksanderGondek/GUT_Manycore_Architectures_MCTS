@@ -22,6 +22,11 @@ namespace Mcts
             return (node1key < node2key);
         }
 
+        bool compareNodesByVisists(Mcts::Tree::Node &node1, Mcts::Tree::Node &node2)
+        {
+            return (node1.getVisits() < node2.getVisits());
+        }
+
         Node::Node(std::string action, Node *parent, GameStates::NimGameState *state)
         {
             this->_wins = 0;

@@ -42,6 +42,7 @@ namespace Mcts
         };
 
         bool compareTwoNodesWithUcb(Mcts::Tree::Node &node1, Mcts::Tree::Node &node2);
+        bool compareNodesByVisists(Mcts::Tree::Node &node1, Mcts::Tree::Node &node2);
     }
 }
 

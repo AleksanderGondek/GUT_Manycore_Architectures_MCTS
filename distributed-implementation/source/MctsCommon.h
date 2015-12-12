@@ -22,7 +22,10 @@
 #define MCTS_PLAYER_TWO_ID 2
 #define MCTS_PLAYER_UNKNOWN_ID 3
 
-#define MCTS_DEFAULT_MESSAGE_SIZE 65536 // Maximum size of MPI Message to be send - currently 2^16
+#define MCTS_ACTION_NOT_AVAILABLE "N/A"
+
+#define MCTS_DEFAULT_MESSAGE_SIZE 65536
+// Maximum size of MPI Message to be send - currently 2^16
 // TODO: Lower the size
 
 #endif //GUT_MANYCORE_ARCHITECTURES_MCTS_MCTSCOMMONHEADER_H
