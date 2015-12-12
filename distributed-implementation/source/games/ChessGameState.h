@@ -17,7 +17,7 @@ namespace Mcts
                 ChessGameState(unsigned short int lastActivePlayer);
                 ChessGameState clone(void);
 
-                void setChessBoard(std::unordered_map chessBoard);
+                void setChessBoard(std::unordered_map<std::string, std::string> chessBoard);
 
                 unsigned short int getLastActivePlayer(void);
                 void setLastActivePlayer(unsigned short int playerId);
@@ -27,7 +27,7 @@ namespace Mcts
                 void performAction(std::string action);
 
             private:
-                std::unordered_map <std::string, std::string> _chessBoard;
+                std::unordered_map<std::string, std::string> _chessBoard;
                 unsigned short int _lastActivePlayer;
             };
     }

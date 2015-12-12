@@ -8,9 +8,8 @@ namespace Mcts
 {
     namespace GameStates
     {
-        void ChessGameState::setChessBoard(std::unordered_map chessBoard)
+        void ChessGameState::setChessBoard(std::unordered_map<std::string, std::string> chessBoard)
         {
-
         }
     }
 }

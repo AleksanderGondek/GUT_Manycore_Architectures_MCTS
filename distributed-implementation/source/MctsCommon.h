@@ -10,6 +10,7 @@
 #include <bits/stl_vector.h>
 #include <cmath>
 #include <iostream>
+#include <fstream>
 #include <limits>
 #include <sstream>
 #include <unordered_map>
