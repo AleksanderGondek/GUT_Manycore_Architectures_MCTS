@@ -12,7 +12,7 @@ namespace Mcts
 {
     namespace Tree
     {
-        namespace Deserializer
+        namespace Deserialization
         {
             unsigned long GetIndexOfFirstNthElementInString(std::string text, char characterToFind, int n);
             unsigned long GetIndexOfLastNthElementInString(std::string text, char characterToFind, int n);

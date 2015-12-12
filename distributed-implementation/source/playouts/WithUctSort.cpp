@@ -99,7 +99,7 @@ namespace Mcts
             while (std::getline(receivedDataStream, serializedTree, '#'))
             {
                 serializedTree = serializedTree.substr(0, serializedTree.length() - 1);
-                Mcts::Tree::Node remoteTree = Mcts::Tree::Deserializer::Deserialize(serializedTree);
+                Mcts::Tree::Node remoteTree = Mcts::Tree::Deserialization::Deserialize(serializedTree);
                 Mcts::Tree::Merger::IncorporateRemoteNodeToLocal(&root, &remoteTree);
             }
 

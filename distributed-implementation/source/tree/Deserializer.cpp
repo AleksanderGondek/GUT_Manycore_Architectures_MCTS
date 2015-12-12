@@ -7,7 +7,7 @@
 namespace Mcts
 {
     namespace Tree {
-        namespace Deserializer {
+        namespace Deserialization {
             unsigned long GetIndexOfFirstNthElementInString(std::string text, char characterToFind, int n) {
                 int timesOFCharacterBeingFound = 0;
                 for (unsigned long i = 0; i < text.length(); i++) {
