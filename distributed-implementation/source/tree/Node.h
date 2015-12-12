@@ -12,8 +12,6 @@ namespace Mcts
 {
     namespace Tree
     {
-        bool compareTwoNodesWithUcb(Node &node1, Node &node2);
-
         class Node
         {
             public:
@@ -42,6 +40,8 @@ namespace Mcts
                 unsigned long int _wins;
                 unsigned long int _visits;
         };
+
+        bool compareTwoNodesWithUcb(Mcts::Tree::Node &node1, Mcts::Tree::Node &node2);
     }
 }
 

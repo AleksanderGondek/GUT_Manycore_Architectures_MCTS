@@ -24,7 +24,7 @@ namespace Mcts
         {
             int quantityOfChipsToRemove = atoi(action.c_str());
             this->setChips(this->getChips()- quantityOfChipsToRemove);
-            this->setLastActivePlayer(3 - this->getLastActivePlayer());
+            this->setLastActivePlayer((unsigned short int)(3 - this->getLastActivePlayer()));
         }
 
         std::vector<std::string> NimGameState::getAvailableActions(void)
@@ -32,7 +32,7 @@ namespace Mcts
             std::vector<std::string> actions;
             if(this->_chips > 0)
             {
-                for(int i=1; i<std::min(4,(this->_chips + 1)); i++)
+                for(int i=1; i<std::min((unsigned int)4,(this->_chips + 1)); i++)
                 {
                     // c++0x in action - std:to_string
                     actions.push_back(std::to_string(i));
