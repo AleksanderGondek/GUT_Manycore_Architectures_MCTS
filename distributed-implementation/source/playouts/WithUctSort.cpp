@@ -19,7 +19,7 @@ namespace Mcts
             int world_size;
             MPI_Comm_size(MPI_COMM_WORLD, &world_size);
 
-            Mcts::Tree::Node root(0, NULL, &rootState);
+            Mcts::Tree::Node root(MCTS_ACTION_NOT_AVAILABLE, NULL, &rootState);
             for(int i=0; i<maximumIterations; i++)
             {
                 Mcts::Tree::Node* node = &root;
@@ -56,7 +56,6 @@ namespace Mcts
                     node = node->getParentNode();
                 }
             }
-
 
             // Root synchronization
             std::string serialized = Mcts::Tree::Serialization::Serialize(root);

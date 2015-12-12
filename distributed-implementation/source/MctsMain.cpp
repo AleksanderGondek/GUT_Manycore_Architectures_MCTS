@@ -27,12 +27,12 @@ int main(int argc, char* argv[])
         if (gameState.getLastActivePlayer() == 1)
         {
             // Last player was no 1, so it's player 2 turn
-            action = Mcts::Playouts::getBestMoveUsingUtcSort(gameState, 10);
+            action = Mcts::Playouts::getBestMoveUsingUtcSort(gameState, 1);
         }
         else
         {
             // Last player was no 2 so it's player 1 turn
-            action = Mcts::Playouts::getBestMoveUsingUtcSort(gameState, 20);
+            action = Mcts::Playouts::getBestMoveUsingUtcSort(gameState, 1);
         }
 
         if(world_rank == 0)
@@ -40,7 +40,12 @@ int main(int argc, char* argv[])
             std::cout << "Player: " << 3 - gameState.getLastActivePlayer() << " takes his best move: " << action <<
             std::endl;
         }
-        gameState.performAction(action);
+
+
+        if(action != MCTS_ACTION_NOT_AVAILABLE)
+        {
+            gameState.performAction(action);
+        }
     }
 
     if(world_rank == 0)

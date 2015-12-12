@@ -22,8 +22,22 @@ namespace Mcts
 
         void NimGameState::performAction(std::string action)
         {
-            int quantityOfChipsToRemove = atoi(action.c_str());
-            this->setChips(this->getChips()- quantityOfChipsToRemove);
+            unsigned long int quantityOfChipsToRemoveLong = std::stoul(action.c_str(), NULL, 10);
+            unsigned int quantityOfChipsToRemove = (unsigned int) quantityOfChipsToRemoveLong;
+            if(quantityOfChipsToRemove != quantityOfChipsToRemoveLong)
+            {
+                std::cout << "Could not properly convert string to usigned int" << std::endl;
+            }
+
+            if(quantityOfChipsToRemove > this->getChips())
+            {
+                this->setChips(0);
+            }
+            else
+            {
+                this->setChips(this->getChips() - quantityOfChipsToRemove);
+            }
+
             this->setLastActivePlayer((unsigned short int)(3 - this->getLastActivePlayer()));
         }
 

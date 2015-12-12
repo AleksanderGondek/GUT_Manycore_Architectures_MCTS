@@ -38,7 +38,8 @@ namespace Mcts
                 return 0;
             }
 
-            Mcts::Tree::Node Deserialize(std::string payload) {
+            Mcts::Tree::Node Deserialize(std::string payload)
+            {
                 // Serialization format:
                 // [previousAction;wins;visits;(actionNotTaken,actionNotTaken,...);(childOne, childTwo,...);]
 
@@ -46,7 +47,7 @@ namespace Mcts
                 std::string tmp;
 
                 int readInCounter = 0;
-                std::string previousAction = 0;
+                std::string previousAction = MCTS_ACTION_NOT_AVAILABLE;
                 unsigned long int wins = 0;
                 unsigned long int visits = 0;
                 std::vector<std::string> actionsNotTaken;
@@ -112,7 +113,6 @@ namespace Mcts
                     }
 
                     // Now there is only information about children nodes left,
-                    //std::cout<< "Deserialization first while loop breaking: "<< std::endl;
                     break;
                 }
 
