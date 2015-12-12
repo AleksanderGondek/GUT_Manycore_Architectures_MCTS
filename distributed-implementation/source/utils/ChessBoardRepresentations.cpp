@@ -34,6 +34,7 @@ namespace Mcts
                             buffer << "[" << chessBoard[boardPosition] << "]";
                         }
                         // If key doesn't exist
+                        else
                         {
                             buffer << "[" << spaceBreak << "]";
                         }
@@ -49,7 +50,7 @@ namespace Mcts
                     it != boardDimensionLetters.end(); ++it)
                 {
                     // Then letter, surrounded by breaks, to match up three chars per column
-                    buffer << "[" << " " << *it << " " << "]";
+                    buffer << "  " << *it << "  ";
                 }
                 buffer << std::endl;
 

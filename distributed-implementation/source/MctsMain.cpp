@@ -6,11 +6,20 @@
 #include "games/NimGameState.h"
 #include "playouts/WithUctSort.h"
 
+#include "parsers/ChessGameParser.h"
+#include "utils/ChessBoardRepresentations.h"
+
 int main(int argc, char* argv[])
 {
     // Parse arguments
     // First param is the name of the program being run
     // (due to call: mpirun -np 2 program-name
+
+    std::unordered_map<std::string, std::string> test =
+            Mcts::Parsers::ChessGame::LoadChessBoard(
+                    "/home/agondek/GUT/GUT_Manycore_Architectures_MCTS/distributed-implementation/example_input.txt");
+    Mcts::Utils::ChessBoardRepresentations::PrintOutChessBoard(test);
+    return 0;
 
     // Initialize the MPI environment
     MPI_Init(NULL, NULL);
