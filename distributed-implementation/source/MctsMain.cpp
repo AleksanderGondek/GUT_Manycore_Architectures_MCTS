@@ -8,6 +8,10 @@
 
 int main(int argc, char* argv[])
 {
+    // Parse arguments
+    // First param is the name of the program being run
+    // (due to call: mpirun -np 2 program-name
+
     // Initialize the MPI environment
     MPI_Init(NULL, NULL);
 
@@ -19,7 +23,7 @@ int main(int argc, char* argv[])
     // Where k is the maximum number of _chips allowed to draw at once
     // Uncomment to present a valid game
     // Mcts::GameStates::NimGameState gameState(2,400);
-    Mcts::GameStates::NimGameState gameState(2, 200);
+    Mcts::GameStates::NimGameState gameState(2, 400);
 
     while (!gameState.getAvailableActions().empty())
     {
@@ -27,12 +31,12 @@ int main(int argc, char* argv[])
         if (gameState.getLastActivePlayer() == 1)
         {
             // Last player was no 1, so it's player 2 turn
-            action = Mcts::Playouts::getBestMoveUsingUtcSort(gameState, 1);
+            action = Mcts::Playouts::getBestMoveUsingUtcSort(gameState, 30);
         }
         else
         {
             // Last player was no 2 so it's player 1 turn
-            action = Mcts::Playouts::getBestMoveUsingUtcSort(gameState, 1);
+            action = Mcts::Playouts::getBestMoveUsingUtcSort(gameState, 30);
         }
 
         if(world_rank == 0)

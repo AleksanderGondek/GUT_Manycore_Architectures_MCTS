@@ -19,8 +19,11 @@ namespace Mcts
             int world_size;
             MPI_Comm_size(MPI_COMM_WORLD, &world_size);
 
+            int timeoutCounter = 0;
+            int i = 0;
             Mcts::Tree::Node root(MCTS_ACTION_NOT_AVAILABLE, NULL, &rootState);
-            for(int i=0; i<maximumIterations; i++)
+            while(i<maximumIterations &&
+                    timeoutCounter <= maximumIterations * MCTS_DEFAULT_DECISION_TIMEOUT_MULTIPLAYER)
             {
                 Mcts::Tree::Node* node = &root;
                 Mcts::GameStates::NimGameState state = rootState.clone();
@@ -30,6 +33,7 @@ namespace Mcts
                 {
                     node = node->selectNextChildNode();
                     state.performAction(node->getPreviousAction());
+                    timeoutCounter++;
                 }
 
                 // Expansion Step
@@ -39,6 +43,7 @@ namespace Mcts
                     std::string action = node->actionsNotTaken.back();
                     state.performAction(action);
                     node = node->addChildNode(action, &state);
+                    timeoutCounter++;
                 }
 
                 // Simulation Step
@@ -47,6 +52,7 @@ namespace Mcts
                     std::random_shuffle(node->actionsNotTaken.begin(), node->actionsNotTaken.end());
                     std::string action = node->actionsNotTaken.back();
                     state.performAction(action);
+                    timeoutCounter++;
                 }
 
                 // Backpropagation Step
@@ -55,6 +61,9 @@ namespace Mcts
                     node->update(state.getStateValue(node->getLastActivePlayer()));
                     node = node->getParentNode();
                 }
+
+                timeoutCounter++;
+                i++;
             }
 
             // Root synchronization

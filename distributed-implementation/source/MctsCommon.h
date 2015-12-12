@@ -24,6 +24,9 @@
 
 #define MCTS_ACTION_NOT_AVAILABLE "N/A"
 
+#define MCTS_DEFAULT_DECISION_TIMEOUT_MULTIPLAYER 4096
+// Maximum 'ticks' that can be spend on decition in MCTS are
+// counted as (number of iterations) x (MCTS_DEFAULT_DECISION_TIMEOUT_MULTIPLAYER)
 #define MCTS_DEFAULT_MESSAGE_SIZE 65536
 // Maximum size of MPI Message to be send - currently 2^16
 // TODO: Lower the size
