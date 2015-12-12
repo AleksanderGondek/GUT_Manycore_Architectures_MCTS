@@ -10,6 +10,7 @@
 #include <bits/stl_vector.h>
 #include <cmath>
 #include <iostream>
+#include <limits>
 #include <sstream>
 #include <vector>
 
@@ -19,6 +20,7 @@
 // Constants definitions
 #define MCTS_PLAYER_ONE_ID 1
 #define MCTS_PLAYER_TWO_ID 2
+#define MCTS_PLAYER_UNKNOWN_ID 3
 
 #define MCTS_DEFAULT_MESSAGE_SIZE 65536 // Maximum size of MPI Message to be send - currently 2^16
 // TODO: Lower the size

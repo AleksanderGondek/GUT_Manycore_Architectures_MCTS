@@ -14,22 +14,22 @@ namespace Mcts
         class NimGameState
         {
             public:
-                NimGameState(int lastActivePlayer, int chips);
+                NimGameState(unsigned short int lastActivePlayer, unsigned int chips);
                 NimGameState clone(void);
 
-                int getChips(void);
-                void setChips(int number);
+                unsigned int getChips(void);
+                void setChips(unsigned int number);
 
-                int getLastActivePlayer(void);
-                void setLastActivePlayer(int playerId);
+                unsigned short int getLastActivePlayer(void);
+                void setLastActivePlayer(unsigned short int playerId);
 
-                float getStateValue(int playerId);
-                void performAction(std::string action);
+                unsigned long int getStateValue(unsigned short int playerId);
                 std::vector<std::string> getAvailableActions(void);
+                void performAction(std::string action);
 
             private:
-                int chips;
-                int lastActivePlayer;
+                unsigned int _chips;
+                unsigned short int _lastActivePlayer;
         };
     }
 }

@@ -5,9 +5,9 @@ class GameState(object):
         Methods provided below are bare minimum to make UTC in any 2-player complete information deterministic
         zero-sum game. By convention the players are numbered 1 and 2.
     """
-    def __init__(self, last_active_player=2, chips=15):
+    def __init__(self, last_active_player=2, _chips=15):
         self.last_active_player = last_active_player
-        self.chips = chips
+        self._chips = _chips
 
     def clone(self):
         """

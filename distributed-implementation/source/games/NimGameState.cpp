@@ -8,7 +8,7 @@ namespace Mcts
 {
     namespace GameStates
     {
-        NimGameState::NimGameState(int lastActivePlayer, int chips)
+        NimGameState::NimGameState(unsigned short int lastActivePlayer, unsigned int chips)
         {
             this->setLastActivePlayer(lastActivePlayer);
             this->setChips(chips);
@@ -16,7 +16,7 @@ namespace Mcts
 
         NimGameState NimGameState::clone(void)
         {
-            NimGameState deepClone(this->lastActivePlayer, this->chips);
+            NimGameState deepClone(this->_lastActivePlayer, this->_chips);
             return deepClone;
         }
 
@@ -30,9 +30,9 @@ namespace Mcts
         std::vector<std::string> NimGameState::getAvailableActions(void)
         {
             std::vector<std::string> actions;
-            if(this->chips > 0)
+            if(this->_chips > 0)
             {
-                for(int i=1; i<std::min(4,(this->chips+1)); i++)
+                for(int i=1; i<std::min(4,(this->_chips + 1)); i++)
                 {
                     // c++0x in action - std:to_string
                     actions.push_back(std::to_string(i));
@@ -42,29 +42,30 @@ namespace Mcts
             return actions;
         }
 
-        float NimGameState::getStateValue(int playerId)
+        unsigned long int NimGameState::getStateValue(unsigned short int playerId)
         {
-            return this->lastActivePlayer == playerId ? 1.0f : 0.0f;
+            return this->_lastActivePlayer == playerId ? 1 : 0;
         }
 
-        int NimGameState::getChips(void)
+        // Getters and setters
+        unsigned int NimGameState::getChips(void)
         {
-            return this->chips;
+            return this->_chips;
         }
 
-        void NimGameState::setChips(int number)
+        void NimGameState::setChips(unsigned int number)
         {
-            this->chips = number;
+            this->_chips = number;
         }
 
-        int NimGameState::getLastActivePlayer(void)
+        unsigned short int NimGameState::getLastActivePlayer(void)
         {
-            return this->lastActivePlayer;
+            return this->_lastActivePlayer;
         }
 
-        void NimGameState::setLastActivePlayer(int playerId)
+        void NimGameState::setLastActivePlayer(unsigned short int playerId)
         {
-            this->lastActivePlayer = playerId;
+            this->_lastActivePlayer = playerId;
         }
     }
 }

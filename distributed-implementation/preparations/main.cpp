@@ -16,8 +16,8 @@ int main(int argc, char* argv[])
     int world_rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
-    // IMPORTANT!: if number of chips mod (k + 1) == 0, second player should win (optimal)
-    // Where k is the maximum number of chips allowed to draw at once
+    // IMPORTANT!: if number of _chips mod (k + 1) == 0, second player should win (optimal)
+    // Where k is the maximum number of _chips allowed to draw at once
     // Uncomment to present valdi game
     //NimGameState gameState(2,400);
     NimGameState gameState(2, 200);

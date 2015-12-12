@@ -43,5 +43,5 @@ class MonteCarloGameHandler(object):
 
 
 if __name__ == "__main__":
-    gameHandler = MonteCarloGameHandler(NimState(last_active_player=2, chips=15), 1000, 100)
+    gameHandler = MonteCarloGameHandler(NimState(last_active_player=2, _chips=15), 1000, 100)
     gameHandler.play()
