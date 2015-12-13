@@ -62,10 +62,7 @@ namespace Mcts
 
                         // previousAction = atoi(tmp.c_str());
                         // TODO: Make sure this works as expects
-                        // TODO 2: Later we need to change it to accept encoded actions as 3AAC
-                        // Previous action is a number in this case, but needs to be
-                        // Converted back to string
-                        previousAction = std::to_string(atoi(tmp.c_str()));
+                        previousAction = tmp;
 
                         continue;
                     }

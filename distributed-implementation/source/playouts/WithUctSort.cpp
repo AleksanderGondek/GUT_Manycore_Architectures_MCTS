@@ -22,12 +22,12 @@ namespace Mcts
             int timeoutCounter = 0;
             int i = 0;
             Mcts::Tree::Node root(MCTS_ACTION_NOT_AVAILABLE, NULL, rootState);
+
             while(i<maximumIterations &&
                     timeoutCounter <= maximumIterations * MCTS_DEFAULT_DECISION_TIMEOUT_MULTIPLAYER)
             {
                 Mcts::Tree::Node* node = &root;
                 Mcts::GameStates::IGameState* state = rootState->clone();
-
                 // Selection Step
                 while(node->actionsNotTaken.empty() && !node->childNodes.empty())
                 {
@@ -35,7 +35,6 @@ namespace Mcts
                     state->performAction(node->getPreviousAction());
                     timeoutCounter++;
                 }
-
                 // Expansion Step
                 if(!node->actionsNotTaken.empty())
                 {
@@ -43,6 +42,7 @@ namespace Mcts
                     std::string action = node->actionsNotTaken.back();
                     state->performAction(action);
                     node = node->addChildNode(action, state);
+                    node->actionsNotTaken = state->getAvailableActions();
                     timeoutCounter++;
                 }
 
@@ -52,6 +52,7 @@ namespace Mcts
                     std::random_shuffle(node->actionsNotTaken.begin(), node->actionsNotTaken.end());
                     std::string action = node->actionsNotTaken.back();
                     state->performAction(action);
+                    node->actionsNotTaken = state->getAvailableActions();
                     timeoutCounter++;
                 }
 
@@ -65,6 +66,14 @@ namespace Mcts
                 timeoutCounter++;
                 i++;
             }
+
+
+            // Tutaj jeszcze jest dobrze
+            std::sort(root.childNodes.begin(), root.childNodes.end(),
+                      Mcts::Tree::compareNodesByVisists);
+            Mcts::Tree::Node lastItemWithHighestVisits = root.childNodes.back();
+            std::cout << "Sraka makaa " <<lastItemWithHighestVisits.getPreviousAction();
+            // fasd fasf ads
 
             // Root synchronization
             std::string serialized = Mcts::Tree::Serialization::Serialize(root);
@@ -95,18 +104,18 @@ namespace Mcts
             std::stringstream receivedDataStream(received);
 
             // Load in other MCS Trees
-            std::string serializedTree;
-            while (std::getline(receivedDataStream, serializedTree, '#'))
-            {
-                serializedTree = serializedTree.substr(0, serializedTree.length() - 1);
-                Mcts::Tree::Node remoteTree = Mcts::Tree::Deserialization::Deserialize(serializedTree);
-                Mcts::Tree::Merger::IncorporateRemoteNodeToLocal(&root, &remoteTree);
-            }
+//            std::string serializedTree;
+//            while (std::getline(receivedDataStream, serializedTree, '#'))
+//            {
+//                serializedTree = serializedTree.substr(0, serializedTree.length() - 1);
+//                Mcts::Tree::Node remoteTree = Mcts::Tree::Deserialization::Deserialize(serializedTree);
+//                Mcts::Tree::Merger::IncorporateRemoteNodeToLocal(&root, &remoteTree);
+//            }
 
             std::sort(root.childNodes.begin(), root.childNodes.end(),
                       Mcts::Tree::compareNodesByVisists);
-            Mcts::Tree::Node lastItemWithHighestVisits = root.childNodes.back();
-            return lastItemWithHighestVisits.getPreviousAction();
+            Mcts::Tree::Node lastItemWithHighestVisits2 = root.childNodes.back();
+            return lastItemWithHighestVisits2.getPreviousAction();
         }
     }
 }

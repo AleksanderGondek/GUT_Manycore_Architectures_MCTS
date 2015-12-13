@@ -39,6 +39,7 @@ int main(int argc, char* argv[])
 
     while (!gameState.getAvailableActions().empty())
     {
+        std::cout << "SIZE is " << gameState.getAvailableActions().size() << std::endl;
         std::string action;
         if (gameState.getLastActivePlayer() == MCTS_PLAYER_ONE_ID)
         {

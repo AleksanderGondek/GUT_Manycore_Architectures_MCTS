@@ -4,6 +4,8 @@
 
 #include "ChessGameState.h"
 
+#include "../utils/ChessBoardRepresentations.h"
+
 namespace Mcts
 {
     namespace GameStates
@@ -51,8 +53,9 @@ namespace Mcts
             {
                 // TODO: Later this shoud not take place
                 // But for now game ends when king is dead
-                std::string pieceToData = this->_chessBoard[pieceToData];
-                if (pieceToData.substr(2, 1) == MCTS_CHESS_GAME_PIECE_KING)
+                std::string pieceToData = this->_chessBoard[pieceToPosition];
+                std::string pieceType = pieceToData.substr(2, 1);
+                if (pieceType == MCTS_CHESS_GAME_PIECE_KING)
                 {
                     // Taken down king will belong to lastActivePlayer, since current
                     // turn is not his.
@@ -66,15 +69,16 @@ namespace Mcts
                     }
                 }
             }
-
             // Move piece to pointed location
             this->_chessBoard[pieceToPosition] = this->_chessBoard[pieceFromPosition];
 
-            if(!toPostionIsEmpty)
-            {
-                // Remove piece from previous location
-                this->_chessBoard.erase(pieceFromPosition);
-            }
+            // Remove piece from previous location
+            this->_chessBoard.erase(pieceFromPosition);
+
+            // Change last active player
+            this->setLastActivePlayer((unsigned short int)(3 - this->getLastActivePlayer()));
+
+            Mcts::Utils::ChessBoardRepresentations::PrintOutChessBoard(this->_chessBoard);
         }
 
         // This function has many uses and should be splitted into multiple
@@ -82,30 +86,36 @@ namespace Mcts
         // And again: for now, we are not checking for checks - whatever happens, happens
         std::vector<std::string> ChessGameState::getAvailableActions(void)
         {
+            std::vector<std::string> availableActions;
             // If king is down, game is over, no further moves are permitted
             if(this->_playerOneKingDown || this->_playerTwoKingDown)
             {
                 return std::vector<std::string>();
             }
 
-            // Calculate all actions for given player
+            // Calculate all actionsr
             for (std::unordered_map<std::string, std::string>::iterator it = this->_chessBoard.begin();
                  it != this->_chessBoard.end(); ++it)
             {
                 std::vector<std::string> newActions = this->getAvailableActions(it->first, it->second);
-                this->_availableActions.insert(
-                        this->_availableActions.end(),
+                availableActions.insert(
+                        availableActions.end(),
                         newActions.begin(),
                         newActions.end()
                 );
             }
 
-            return this->_availableActions;
+            return availableActions;
         }
 
         std::vector<std::string> ChessGameState::getAvailableActions(std::string piecePosition,
                                                                      std::string pieceData)
         {
+            if(pieceData.empty())
+            {
+                return std::vector<std::string>();
+            }
+
             std::string pieceType = pieceData.substr(2,1);
             if(MCTS_CHESS_GAME_PIECE_PAWN == pieceType)
             {
@@ -419,5 +429,10 @@ namespace Mcts
         {
             this->_lastActivePlayer = playerId;
         }
+
+        std::unordered_map<std::string, std::string> ChessGameState::getChessBoard(void)
+        {
+            return this->_chessBoard;
+        };
     }
 }
