@@ -14,7 +14,8 @@ namespace Mcts
         class ChessGameState
         {
             public:
-                ChessGameState(unsigned short int lastActivePlayer);
+                ChessGameState(unsigned short int lastActivePlayer,
+                               std::unordered_map<std::string, std::string> chessBoard);
                 ChessGameState clone(void);
 
                 // Important: This needs to be set for ChessGame state to work!

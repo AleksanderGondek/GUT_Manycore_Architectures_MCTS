@@ -8,9 +8,72 @@ namespace Mcts
 {
     namespace GameStates
     {
+        ChessGameState::ChessGameState(unsigned short int lastActivePlayer,
+                                       std::unordered_map<std::string, std::string> chessBoard)
+        {
+            this->setLastActivePlayer(lastActivePlayer);
+            this->setChessBoard(chessBoard);
+        }
+
+        ChessGameState ChessGameState::clone(void)
+        {
+            ChessGameState deepClone(this->getLastActivePlayer(), this->_chessBoard);
+        }
+
         void ChessGameState::setChessBoard(std::unordered_map<std::string, std::string> chessBoard)
         {
             this->_chessBoard = chessBoard;
+        }
+
+        unsigned long int ChessGameState::getStateValue(unsigned short int playerId)
+        {
+            if(playerId == MCTS_PLAYER_ONE_ID)
+            {
+                return this->_playerTwoKingDown == true ? 1 : 0;
+            }
+            else if(playerId == MCTS_PLAYER_TWO_ID)
+            {
+                return this->_playerOneKingDown == true ? 1 : 0;
+            }
+
+            return 0;
+        }
+
+        void ChessGameState::performAction(std::string action)
+        {
+            // Because of format '2A|2B'
+            std::string pieceFromPosition = action.substr(0,2);
+            std::string pieceToPosition = action.substr(3,2);
+            bool toPostionIsEmpty = IsBoardFieldEmpty(pieceToPosition);
+
+            if(!toPostionIsEmpty)
+            {
+                // TODO: Later this shoud not take place
+                // But for now game ends when king is dead
+                std::string pieceToData = this->_chessBoard[pieceToData];
+                if (pieceToData.substr(2, 1) == MCTS_CHESS_GAME_PIECE_KING)
+                {
+                    // Taken down king will belong to lastActivePlayer, since current
+                    // turn is not his.
+                    if (this->_lastActivePlayer == MCTS_PLAYER_ONE_ID)
+                    {
+                        this->_playerOneKingDown = true;
+                    }
+                    else if (this->_lastActivePlayer == MCTS_PLAYER_TWO_ID)
+                    {
+                        this->_playerTwoKingDown = true;
+                    }
+                }
+            }
+
+            // Move piece to pointed location
+            this->_chessBoard[pieceToPosition] = this->_chessBoard[pieceFromPosition];
+
+            if(!toPostionIsEmpty)
+            {
+                // Remove piece from previous location
+                this->_chessBoard.erase(pieceFromPosition);
+            }
         }
 
         // This function has many uses and should be splitted into multiple
@@ -18,6 +81,12 @@ namespace Mcts
         // And again: for now, we are not checking for checks - whatever happens, happens
         std::vector<std::string> ChessGameState::getAvailableActions(unsigned short int playerId)
         {
+            // If king is down, game is over, no further moves are permitted
+            if(this->_playerOneKingDown || this->_playerTwoKingDown)
+            {
+                return std::vector<std::string>();
+            }
+
             // Calculate all actions for given player
             for (std::unordered_map<std::string, std::string>::iterator it = this->_chessBoard.begin();
                  it != this->_chessBoard.end(); ++it)
@@ -54,9 +123,7 @@ namespace Mcts
                 return this->_playerTwoAvailableActions;
             }
 
-            std::vector<std::string> noActionsVector;
-            noActionsVector.push_back(MCTS_ACTION_NOT_AVAILABLE);
-            return noActionsVector;
+            return std::vector<std::string>();
         }
 
         std::vector<std::string> ChessGameState::getAvailableActions(std::string piecePosition,
@@ -85,7 +152,7 @@ namespace Mcts
             }
             else if(MCTS_CHESS_GAME_PIECE_KING == pieceType)
             {
-                return std::vector<std::string>();
+                return this->GetKingPossibleMoves(piecePosition, pieceData);
             }
 
             return std::vector<std::string>();
