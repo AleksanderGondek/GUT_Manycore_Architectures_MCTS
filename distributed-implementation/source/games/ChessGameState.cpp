@@ -18,37 +18,30 @@ namespace Mcts
         // And again: for now, we are not checking for checks - whatever happens, happens
         std::vector<std::string> ChessGameState::getAvailableActions(unsigned short int playerId)
         {
-            // Calculate all actions except for Kings actions
+            // Calculate all actions for given player
             for (std::unordered_map<std::string, std::string>::iterator it = this->_chessBoard.begin();
                  it != this->_chessBoard.end(); ++it)
             {
                 std::string playerString = (std::string)(it->second);
                 unsigned short int player = (unsigned short int)
                         std::strtoul(playerString.substr(0,1).c_str(), 0, 10);
-                std::string pieceType = this->GetPieceTypeFromBoardValue(it->second);
                 if(player == MCTS_PLAYER_ONE_ID)
                 {
-                    if(pieceType != MCTS_CHESS_GAME_PIECE_KING)
-                    {
-                        std::vector<std::string> newActions = this->getAvailableActions(it->first, it->second);
-                        this->_playerOneAvailableActions.insert(
-                                this->_playerOneAvailableActions.end(),
-                                newActions.begin(),
-                                newActions.end()
-                        );
-                    }
+                    std::vector<std::string> newActions = this->getAvailableActions(it->first, it->second);
+                    this->_playerOneAvailableActions.insert(
+                            this->_playerOneAvailableActions.end(),
+                            newActions.begin(),
+                            newActions.end()
+                    );
                 }
                 else if(player == MCTS_PLAYER_TWO_ID)
                 {
-                    if(pieceType != MCTS_CHESS_GAME_PIECE_KING)
-                    {
-                        std::vector<std::string> newActions = this->getAvailableActions(it->first, it->second);
-                        this->_playerTwoAvailableActions.insert(
-                                this->_playerTwoAvailableActions.end(),
-                                newActions.begin(),
-                                newActions.end()
-                        );
-                    }
+                    std::vector<std::string> newActions = this->getAvailableActions(it->first, it->second);
+                    this->_playerTwoAvailableActions.insert(
+                            this->_playerTwoAvailableActions.end(),
+                            newActions.begin(),
+                            newActions.end()
+                    );
                 }
             }
 
