@@ -100,7 +100,7 @@ namespace Mcts
                 );
             }
 
-            return std::vector<std::string>();
+            return this->_availableActions;
         }
 
         std::vector<std::string> ChessGameState::getAvailableActions(std::string piecePosition,

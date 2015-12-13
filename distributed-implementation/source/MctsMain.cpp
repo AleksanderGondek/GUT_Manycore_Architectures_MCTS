@@ -4,6 +4,7 @@
 
 #include "MctsCommon.h"
 #include "games/NimGameState.h"
+#include "games/ChessGameState.h"
 #include "playouts/WithUctSort.h"
 
 #include "parsers/ChessGameParser.h"
@@ -16,9 +17,10 @@ int main(int argc, char* argv[])
     // (due to call: mpirun -np 2 program-name
 
 //    tmp bs
-//    std::unordered_map<std::string, std::string> test =
-//            Mcts::Parsers::ChessGame::LoadChessBoard(
-//                    "/home/agondek/GUT/GUT_Manycore_Architectures_MCTS/distributed-implementation/example_input.txt");
+    std::unordered_map<std::string, std::string> test =
+            Mcts::Parsers::ChessGame::LoadChessBoard(
+                    "/home/agondek/GUT/GUT_Manycore_Architectures_MCTS/distributed-implementation/example_input.txt");
+    Mcts::GameStates::ChessGameState gameState(2, test);
 //    Mcts::Utils::ChessBoardRepresentations::PrintOutChessBoard(test);
 //    return 0;
 
@@ -33,7 +35,7 @@ int main(int argc, char* argv[])
     // Where k is the maximum number of _chips allowed to draw at once
     // Uncomment to present a valid game
     // Mcts::GameStates::NimGameState gameState(2,400);
-    Mcts::GameStates::NimGameState gameState(MCTS_PLAYER_TWO_ID, 400);
+    // Mcts::GameStates::NimGameState gameState(MCTS_PLAYER_TWO_ID, 400);
 
     while (!gameState.getAvailableActions().empty())
     {
