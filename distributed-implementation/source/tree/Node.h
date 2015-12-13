@@ -6,7 +6,7 @@
 #define GUT_MANYCORE_ARCHITECTURES_MCTS_NODE_H
 
 #include "../MctsCommon.h"
-#include "../games/NimGameState.h"
+#include "../games/IGameState.h"
 
 namespace Mcts
 {
@@ -15,7 +15,7 @@ namespace Mcts
         class Node
         {
             public:
-                Node(std::string action, Node* parent, GameStates::NimGameState* state);
+                Node(std::string action, Node* parent, GameStates::IGameState* state);
 
                 std::vector<std::string> actionsNotTaken;
                 std::vector<Node> childNodes;
@@ -30,7 +30,7 @@ namespace Mcts
                 void adjustVisits(unsigned long int visits);
 
                 Node* selectNextChildNode(void);
-                Node* addChildNode(std::string action, GameStates::NimGameState* state);
+                Node* addChildNode(std::string action, GameStates::IGameState* state);
 
                 void update(unsigned long int value);
             private:

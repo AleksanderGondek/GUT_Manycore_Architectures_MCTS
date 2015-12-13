@@ -14,10 +14,9 @@ namespace Mcts
             this->setChips(chips);
         }
 
-        NimGameState NimGameState::clone(void)
+        NimGameState* NimGameState::clone(void)
         {
-            NimGameState deepClone(this->_lastActivePlayer, this->_chips);
-            return deepClone;
+            return new NimGameState(this->_lastActivePlayer, this->_chips);
         }
 
         void NimGameState::performAction(std::string action)

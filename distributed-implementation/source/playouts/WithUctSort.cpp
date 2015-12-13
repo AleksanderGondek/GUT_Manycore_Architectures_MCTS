@@ -8,7 +8,7 @@ namespace Mcts
 {
     namespace Playouts
     {
-        std::string getBestMoveUsingUtcSort(Mcts::GameStates::NimGameState rootState,
+        std::string getBestMoveUsingUtcSort(Mcts::GameStates::IGameState* rootState,
                                             int maximumIterations)
         {
             // Get the id of current process
@@ -21,18 +21,18 @@ namespace Mcts
 
             int timeoutCounter = 0;
             int i = 0;
-            Mcts::Tree::Node root(MCTS_ACTION_NOT_AVAILABLE, NULL, &rootState);
+            Mcts::Tree::Node root(MCTS_ACTION_NOT_AVAILABLE, NULL, rootState);
             while(i<maximumIterations &&
                     timeoutCounter <= maximumIterations * MCTS_DEFAULT_DECISION_TIMEOUT_MULTIPLAYER)
             {
                 Mcts::Tree::Node* node = &root;
-                Mcts::GameStates::NimGameState state = rootState.clone();
+                Mcts::GameStates::IGameState* state = rootState->clone();
 
                 // Selection Step
                 while(node->actionsNotTaken.empty() && !node->childNodes.empty())
                 {
                     node = node->selectNextChildNode();
-                    state.performAction(node->getPreviousAction());
+                    state->performAction(node->getPreviousAction());
                     timeoutCounter++;
                 }
 
@@ -41,24 +41,24 @@ namespace Mcts
                 {
                     std::random_shuffle(node->actionsNotTaken.begin(), node->actionsNotTaken.end());
                     std::string action = node->actionsNotTaken.back();
-                    state.performAction(action);
-                    node = node->addChildNode(action, &state);
+                    state->performAction(action);
+                    node = node->addChildNode(action, state);
                     timeoutCounter++;
                 }
 
                 // Simulation Step
-                while(!state.getAvailableActions().empty())
+                while(!state->getAvailableActions().empty())
                 {
                     std::random_shuffle(node->actionsNotTaken.begin(), node->actionsNotTaken.end());
                     std::string action = node->actionsNotTaken.back();
-                    state.performAction(action);
+                    state->performAction(action);
                     timeoutCounter++;
                 }
 
                 // Backpropagation Step
                 while(node->getParentNode() != NULL)
                 {
-                    node->update(state.getStateValue(node->getLastActivePlayer()));
+                    node->update(state->getStateValue(node->getLastActivePlayer()));
                     node = node->getParentNode();
                 }
 

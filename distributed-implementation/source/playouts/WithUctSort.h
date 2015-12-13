@@ -6,7 +6,7 @@
 #define GUT_MANYCORE_ARCHITECTURES_MCTS_PLAYOUTS_H
 
 #include "../MctsCommon.h"
-#include "../games/NimGameState.h"
+#include "../games/IGameState.h"
 #include "../tree/Node.h"
 #include "../tree/Serializer.h"
 #include "../tree/Deserializer.h"
@@ -16,7 +16,7 @@ namespace Mcts
 {
     namespace Playouts
     {
-        std::string getBestMoveUsingUtcSort(Mcts::GameStates::NimGameState rootState,
+        std::string getBestMoveUsingUtcSort(Mcts::GameStates::IGameState* rootState,
                                             int maximumIterations);
     }
 }

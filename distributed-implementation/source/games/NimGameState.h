@@ -6,16 +6,17 @@
 #define GUT_MANYCORE_ARCHITECTURES_MCTS_NIMGAMESTATE_H
 
 #include "../MctsCommon.h"
+#include "IGameState.h"
 
 namespace Mcts
 {
     namespace GameStates
     {
-        class NimGameState
+        class NimGameState : public IGameState
         {
             public:
                 NimGameState(unsigned short int lastActivePlayer, unsigned int chips);
-                NimGameState clone(void);
+                NimGameState* clone(void);
 
                 unsigned int getChips(void);
                 void setChips(unsigned int number);

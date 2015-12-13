@@ -27,7 +27,7 @@ namespace Mcts
             return (node1.getVisits() < node2.getVisits());
         }
 
-        Node::Node(std::string action, Node *parent, GameStates::NimGameState *state)
+        Node::Node(std::string action, Node *parent, GameStates::IGameState *state)
         {
             this->_wins = 0;
             this->_visits = 0;
@@ -53,7 +53,7 @@ namespace Mcts
             return &this->childNodes.back();
         }
 
-        Node* Node::addChildNode(std::string action, GameStates::NimGameState *state)
+        Node* Node::addChildNode(std::string action, GameStates::IGameState *state)
         {
             // Remove action connected to newNode, from list of not taken actions
             this->actionsNotTaken.erase(std::remove(this->actionsNotTaken.begin(),
