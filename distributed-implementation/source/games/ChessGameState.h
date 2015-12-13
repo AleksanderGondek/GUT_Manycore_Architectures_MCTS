@@ -25,13 +25,12 @@ namespace Mcts
                 void setLastActivePlayer(unsigned short int playerId);
 
                 unsigned long int getStateValue(unsigned short int playerId);
-                std::vector<std::string> getAvailableActions(unsigned short int playerId);
+                std::vector<std::string> getAvailableActions(void);
                 void performAction(std::string action);
 
             private:
                 std::unordered_map<std::string, std::string> _chessBoard;
-                std::vector<std::string> _playerOneAvailableActions;
-                std::vector<std::string> _playerTwoAvailableActions;
+                std::vector<std::string> _availableActions;
                 unsigned short int _lastActivePlayer;
 
                 bool _playerOneKingDown = false;

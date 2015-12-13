@@ -41,9 +41,10 @@ namespace Mcts
 
         void ChessGameState::performAction(std::string action)
         {
-            // Because of format '2A|2B'
-            std::string pieceFromPosition = action.substr(0,2);
-            std::string pieceToPosition = action.substr(3,2);
+            // Because of format '{playerId}>{fromPostion}>{toPostion}'
+            // i.e. 1>1A>1B
+            std::string pieceFromPosition = action.substr(2,2);
+            std::string pieceToPosition = action.substr(5,2);
             bool toPostionIsEmpty = IsBoardFieldEmpty(pieceToPosition);
 
             if(!toPostionIsEmpty)
@@ -79,7 +80,7 @@ namespace Mcts
         // This function has many uses and should be splitted into multiple
         // However for nows this should do.
         // And again: for now, we are not checking for checks - whatever happens, happens
-        std::vector<std::string> ChessGameState::getAvailableActions(unsigned short int playerId)
+        std::vector<std::string> ChessGameState::getAvailableActions(void)
         {
             // If king is down, game is over, no further moves are permitted
             if(this->_playerOneKingDown || this->_playerTwoKingDown)
@@ -91,37 +92,15 @@ namespace Mcts
             for (std::unordered_map<std::string, std::string>::iterator it = this->_chessBoard.begin();
                  it != this->_chessBoard.end(); ++it)
             {
-                std::string playerString = (std::string)(it->second);
-                unsigned short int player = (unsigned short int)
-                        std::strtoul(playerString.substr(0,1).c_str(), 0, 10);
-                if(player == MCTS_PLAYER_ONE_ID)
-                {
-                    std::vector<std::string> newActions = this->getAvailableActions(it->first, it->second);
-                    this->_playerOneAvailableActions.insert(
-                            this->_playerOneAvailableActions.end(),
-                            newActions.begin(),
-                            newActions.end()
-                    );
-                }
-                else if(player == MCTS_PLAYER_TWO_ID)
-                {
-                    std::vector<std::string> newActions = this->getAvailableActions(it->first, it->second);
-                    this->_playerTwoAvailableActions.insert(
-                            this->_playerTwoAvailableActions.end(),
-                            newActions.begin(),
-                            newActions.end()
-                    );
-                }
+                std::vector<std::string> newActions = this->getAvailableActions(it->first, it->second);
+                this->_availableActions.insert(
+                        this->_availableActions.end(),
+                        newActions.begin(),
+                        newActions.end()
+                );
             }
 
-            if(playerId == MCTS_PLAYER_ONE_ID)
-            {
-                return this->_playerOneAvailableActions;
-            }
-            else if (playerId == MCTS_PLAYER_TWO_ID)
-            {
-                return this->_playerTwoAvailableActions;
-            }
+
 
             return std::vector<std::string>();
         }
@@ -186,8 +165,10 @@ namespace Mcts
                     // If place is empty
                     if(this->IsBoardFieldEmpty(newPosition))
                     {
-                        std::string action = kingPosition;
-                        action += "|";
+                        std::string action = std::to_string(controlingPlayer);
+                        action += ">";
+                        action += kingPosition;
+                        action += ">";
                         action += newPosition;
                         moves.push_back(action);
                     }
@@ -201,8 +182,10 @@ namespace Mcts
                         // If occupied place is not owned by same player
                         if(pieceToBeTakenOwnerId != controlingPlayer)
                         {
-                            std::string action = kingPosition;
-                            action += "|";
+                            std::string action = std::to_string(controlingPlayer);
+                            action += ">";
+                            action += kingPosition;
+                            action += ">";
                             action += newPosition;
                             moves.push_back(action);
                         }
@@ -240,8 +223,10 @@ namespace Mcts
                     // If field ahead is empty
                     if(this->IsBoardFieldEmpty(newPosition))
                     {
-                        std::string action = pawnPosition;
-                        action += "|";
+                        std::string action = std::to_string(controlingPlayer);
+                        action += ">";
+                        action += pawnPosition;
+                        action += ">";
                         action += newPosition;
 
                         moves.push_back(action);
@@ -262,8 +247,10 @@ namespace Mcts
 
                             if(pieceToBeTakenOwnerId != MCTS_PLAYER_ONE_ID)
                             {
-                                std::string action = pawnPosition;
-                                action += "|";
+                                std::string action = std::to_string(controlingPlayer);
+                                action += ">";
+                                action += pawnPosition;
+                                action += ">";
                                 action += newPosition;
 
                                 moves.push_back(action);
@@ -289,8 +276,10 @@ namespace Mcts
 
                                 if(pieceToBeTakenOwnerId != MCTS_PLAYER_ONE_ID)
                                 {
-                                    std::string action = pawnPosition;
-                                    action += "|";
+                                    std::string action = std::to_string(controlingPlayer);
+                                    action += ">";
+                                    action += pawnPosition;
+                                    action += ">";
                                     action += newPosition;
 
                                     moves.push_back(action);
@@ -311,8 +300,10 @@ namespace Mcts
                     // If field ahead is empty
                     if(this->IsBoardFieldEmpty(newPosition))
                     {
-                        std::string action = pawnPosition;
-                        action += "|";
+                        std::string action = std::to_string(controlingPlayer);
+                        action += ">";
+                        action += pawnPosition;
+                        action += ">";
                         action += newPosition;
 
                         moves.push_back(action);
@@ -333,8 +324,10 @@ namespace Mcts
 
                             if(pieceToBeTakenOwnerId != MCTS_PLAYER_ONE_ID)
                             {
-                                std::string action = pawnPosition;
-                                action += "|";
+                                std::string action = std::to_string(controlingPlayer);
+                                action += ">";
+                                action += pawnPosition;
+                                action += ">";
                                 action += newPosition;
 
                                 moves.push_back(action);
@@ -360,8 +353,10 @@ namespace Mcts
 
                                 if(pieceToBeTakenOwnerId != MCTS_PLAYER_ONE_ID)
                                 {
-                                    std::string action = pawnPosition;
-                                    action += "|";
+                                    std::string action = std::to_string(controlingPlayer);
+                                    action += ">";
+                                    action += pawnPosition;
+                                    action += ">";
                                     action += newPosition;
 
                                     moves.push_back(action);
