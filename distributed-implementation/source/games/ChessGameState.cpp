@@ -29,11 +29,11 @@ namespace Mcts
         {
             if(playerId == MCTS_PLAYER_ONE_ID)
             {
-                return this->_playerTwoKingDown == true ? 1 : 0;
+                return this->_playerTwoKingDown ? 1 : 0;
             }
             else if(playerId == MCTS_PLAYER_TWO_ID)
             {
-                return this->_playerOneKingDown == true ? 1 : 0;
+                return this->_playerOneKingDown ? 1 : 0;
             }
 
             return 0;
@@ -99,8 +99,6 @@ namespace Mcts
                         newActions.end()
                 );
             }
-
-
 
             return std::vector<std::string>();
         }
