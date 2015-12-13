@@ -91,6 +91,63 @@ namespace Mcts
             return std::vector<std::string>();
         }
 
+        std::vector<std::string> ChessGameState::GetKingPossibleMoves(std::string kingPosition,
+                                                                      std::string kingData)
+        {
+            std::vector<std::string> moves;
+            // Because pawnPostion '1A'
+            char posLetter = kingPosition[1];
+            int posIndex = atoi(&kingPosition[0]);
+            // Because pawnData '1:R'
+            int controlingPlayer = atoi(&kingData[0]);
+
+            // make sure that numberIndex is above 0
+            int numberIndex = (posIndex - 1) > 0 ? posIndex - 1 : posIndex;
+            int numberIndexMax = (posIndex + 1) <= 8 ? posIndex + 1 : posIndex;
+            // make sure that letterIndex is not smaller than 'A'
+            char letterIndex = (posLetter - 1) >= 'A' ? posLetter - 1 : posLetter;
+            char letterIndexMax = (posLetter + 1) <= 'Z' ? posLetter + 1 : posLetter;
+
+            // Check 1x1 square around king for possible moves
+            while(numberIndex <= numberIndexMax)
+            {
+                while(letterIndex <= letterIndexMax)
+                {
+                    std::string newPosition = std::to_string(numberIndex);
+                    newPosition += letterIndex;
+
+                    // If place is empty
+                    if(this->IsBoardFieldEmpty(newPosition))
+                    {
+                        std::string action = kingPosition;
+                        action += "|";
+                        action += newPosition;
+                        moves.push_back(action);
+                    }
+                    // If place is occupied
+                    else
+                    {
+                        std::string pieceToBeTaken = this->_chessBoard[newPosition];
+                        unsigned short int pieceToBeTakenOwnerId = (unsigned short int)
+                                std::strtoul(pieceToBeTaken.substr(0,1).c_str(), 0, 10);
+
+                        // If occupied place is not owned by same player
+                        if(pieceToBeTakenOwnerId != controlingPlayer)
+                        {
+                            std::string action = kingPosition;
+                            action += "|";
+                            action += newPosition;
+                            moves.push_back(action);
+                        }
+                    }
+                    letterIndex += 1;
+                }
+                numberIndex++;
+            }
+
+            return moves;
+        }
+
         std::vector<std::string> ChessGameState::GetPawnPossibleMoves(std::string pawnPosition,
                                                                       std::string pawnData)
         {
@@ -98,7 +155,6 @@ namespace Mcts
             // Because pawnPostion '1A'
             char posLetter = pawnPosition[1];
             char newPosLetter = pawnPosition[1];
-            int posIndex = atoi(&pawnPosition[0]);
             int newPosIndex = atoi(&pawnPosition[0]);
             // Because pawnData '1:R'
             int controlingPlayer = atoi(&pawnData[0]);

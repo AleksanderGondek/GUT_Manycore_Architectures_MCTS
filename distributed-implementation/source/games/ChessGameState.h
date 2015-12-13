@@ -39,6 +39,8 @@ namespace Mcts
                 std::string GetPieceTypeFromBoardValue(std::string value);
                 std::vector<std::string> getAvailableActions(std::string piecePosition,
                                                              std::string pieceData);
+                std::vector<std::string> GetKingPossibleMoves(std::string kingPosition,
+                                                              std::string kingData);
                 std::vector<std::string> GetPawnPossibleMoves(std::string pawnPosition,
                                                               std::string pawnData);
                 bool IsBoardFieldEmpty(std::string position);
