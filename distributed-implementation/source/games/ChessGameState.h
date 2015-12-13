@@ -6,17 +6,18 @@
 #define GUT_MANYCORE_ARCHITECTURES_MCTS_CHESSGAMESTATE_H
 
 #include "../MctsCommon.h"
+#include "IGameState.h"
 
 namespace Mcts
 {
     namespace GameStates
     {
-        class ChessGameState
+        class ChessGameState: public IGameState
         {
             public:
                 ChessGameState(unsigned short int lastActivePlayer,
                                std::unordered_map<std::string, std::string> chessBoard);
-                ChessGameState clone(void);
+                IGameState* clone(void);
 
                 // Important: This needs to be set for ChessGame state to work!
                 void setChessBoard(std::unordered_map<std::string, std::string> chessBoard);

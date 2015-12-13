@@ -34,7 +34,8 @@ set(SOURCE_FILES
         distributed-implementation/source/parsers/ChessGameParser.cpp
         distributed-implementation/source/parsers/ChessGameParser.h
         distributed-implementation/source/utils/ChessBoardRepresentations.cpp
-        distributed-implementation/source/utils/ChessBoardRepresentations.h)
+        distributed-implementation/source/utils/ChessBoardRepresentations.h
+        distributed-implementation/source/games/IGameState.h)
 
 add_executable(GUT_Manycore_Architectures_MCTS ${SOURCE_FILES})
 target_link_libraries(GUT_Manycore_Architectures_MCTS ${MPI_LIBRARIES})

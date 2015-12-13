@@ -15,9 +15,9 @@ namespace Mcts
             this->setChessBoard(chessBoard);
         }
 
-        ChessGameState ChessGameState::clone(void)
+        IGameState* ChessGameState::clone(void)
         {
-            ChessGameState deepClone(this->getLastActivePlayer(), this->_chessBoard);
+            return new ChessGameState(this->getLastActivePlayer(), this->_chessBoard);
         }
 
         void ChessGameState::setChessBoard(std::unordered_map<std::string, std::string> chessBoard)
