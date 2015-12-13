@@ -28,7 +28,13 @@ set(SOURCE_FILES
         distributed-implementation/source/tree/Merger.h
         distributed-implementation/source/playouts/WithUctSort.cpp
         distributed-implementation/source/playouts/WithUctSort.h
-        distributed-implementation/source/MctsMain.cpp distributed-implementation/source/games/ChessGameState.cpp distributed-implementation/source/games/ChessGameState.h distributed-implementation/source/parsers/ChessGameParser.cpp distributed-implementation/source/parsers/ChessGameParser.h distributed-implementation/source/utils/ChessBoardRepresentations.cpp distributed-implementation/source/utils/ChessBoardRepresentations.h distributed-implementation/source/games/ChessGameMechanics.cpp distributed-implementation/source/games/ChessGameMechanics.h)
+        distributed-implementation/source/MctsMain.cpp
+        distributed-implementation/source/games/ChessGameState.cpp
+        distributed-implementation/source/games/ChessGameState.h
+        distributed-implementation/source/parsers/ChessGameParser.cpp
+        distributed-implementation/source/parsers/ChessGameParser.h
+        distributed-implementation/source/utils/ChessBoardRepresentations.cpp
+        distributed-implementation/source/utils/ChessBoardRepresentations.h)
 
 add_executable(GUT_Manycore_Architectures_MCTS ${SOURCE_FILES})
 target_link_libraries(GUT_Manycore_Architectures_MCTS ${MPI_LIBRARIES})

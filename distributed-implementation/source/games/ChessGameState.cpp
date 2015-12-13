@@ -11,21 +11,6 @@ namespace Mcts
         void ChessGameState::setChessBoard(std::unordered_map<std::string, std::string> chessBoard)
         {
             this->_chessBoard = chessBoard;
-
-            // Assign all pieces to appropriate player vectors, for efficiency
-            for(std::unordered_map<std::string, std::string>::iterator it = this->_chessBoard.begin();
-                it != this->_chessBoard.end(); ++it)
-            {
-                std::string playerId = (std::string)(*it->second).substr(0,1);
-                if(playerId == MCTS_PLAYER_ONE_ID)
-                {
-                    this->_playerOnePiecesPositions.push_back(*it->first);
-                }
-                else if(playerId == MCTS_PLAYER_TWO_ID)
-                {
-                    this->_playerTwoPiecesPositions.push_back(*it->first);
-                }
-            }
         }
 
         // This function has many uses and should be splitted into multiple
@@ -37,13 +22,15 @@ namespace Mcts
             for (std::unordered_map<std::string, std::string>::iterator it = this->_chessBoard.begin();
                  it != this->_chessBoard.end(); ++it)
             {
-                std::string player = (std::string)(*it->second).substr(0,1);
-                std::string pieceType = this->GetPieceTypeFromBoardValue(*it->second);
+                std::string playerString = (std::string)(it->second);
+                unsigned short int player = (unsigned short int)
+                        std::strtoul(playerString.substr(0,1).c_str(), 0, 10);
+                std::string pieceType = this->GetPieceTypeFromBoardValue(it->second);
                 if(player == MCTS_PLAYER_ONE_ID)
                 {
                     if(pieceType != MCTS_CHESS_GAME_PIECE_KING)
                     {
-                        std::vector<std::string> newActions = this->getAvailableActions(*it->first, *it->second);
+                        std::vector<std::string> newActions = this->getAvailableActions(it->first, it->second);
                         this->_playerOneAvailableActions.insert(
                                 this->_playerOneAvailableActions.end(),
                                 newActions.begin(),
@@ -55,7 +42,7 @@ namespace Mcts
                 {
                     if(pieceType != MCTS_CHESS_GAME_PIECE_KING)
                     {
-                        std::vector<std::string> newActions = this->getAvailableActions(*it->first, *it->second);
+                        std::vector<std::string> newActions = this->getAvailableActions(it->first, it->second);
                         this->_playerTwoAvailableActions.insert(
                                 this->_playerTwoAvailableActions.end(),
                                 newActions.begin(),
@@ -89,26 +76,26 @@ namespace Mcts
             }
             else if(MCTS_CHESS_GAME_PIECE_KNIGHT == pieceType)
             {
-                return NULL;
+                return std::vector<std::string>();
             }
             else if(MCTS_CHESS_GAME_PIECE_BISHOP == pieceType)
             {
-                return NULL;
+                return std::vector<std::string>();
             }
             else if(MCTS_CHESS_GAME_PIECE_ROOK == pieceType)
             {
-                return NULL;
+                return std::vector<std::string>();
             }
             else if(MCTS_CHESS_GAME_PIECE_QUEEN == pieceType)
             {
-                return NULL;
+                return std::vector<std::string>();
             }
             else if(MCTS_CHESS_GAME_PIECE_KING == pieceType)
             {
-                return NULL;
+                return std::vector<std::string>();
             }
 
-            return NULL;
+            return std::vector<std::string>();
         }
 
         std::vector<std::string> ChessGameState::GetPawnPossibleMoves(std::string pawnPosition,

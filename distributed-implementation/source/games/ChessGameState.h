@@ -6,7 +6,6 @@
 #define GUT_MANYCORE_ARCHITECTURES_MCTS_CHESSGAMESTATE_H
 
 #include "../MctsCommon.h"
-#include "ChessGameMechanics.h"
 
 namespace Mcts
 {
@@ -30,8 +29,6 @@ namespace Mcts
 
             private:
                 std::unordered_map<std::string, std::string> _chessBoard;
-                std::vector<std::string*> _playerOnePiecesPositions;
-                std::vector<std::string*> _playerTwoPiecesPositions;
                 std::vector<std::string> _playerOneAvailableActions;
                 std::vector<std::string> _playerTwoAvailableActions;
                 unsigned short int _lastActivePlayer;
