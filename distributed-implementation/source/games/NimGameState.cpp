@@ -80,5 +80,9 @@ namespace Mcts
         {
             this->_lastActivePlayer = playerId;
         }
+
+        std::string NimGameState::getGameRepresentation(void) {
+            return "N/a";
+        }
     }
 }

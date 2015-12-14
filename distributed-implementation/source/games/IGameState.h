@@ -25,6 +25,7 @@ namespace Mcts
                 virtual unsigned long int getStateValue(unsigned short int playerId) = 0;
                 virtual std::vector<std::string> getAvailableActions(void) = 0;
                 virtual void performAction(std::string action) = 0;
+                virtual std::string getGameRepresentation(void) = 0;
         };
     }
 }

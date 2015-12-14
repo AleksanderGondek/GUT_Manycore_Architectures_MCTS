@@ -11,6 +11,7 @@
 #include "../tree/Serializer.h"
 #include "../tree/Deserializer.h"
 #include "../tree/Merger.h"
+#include "../utils/ChessBoardRepresentations.h"
 
 namespace Mcts
 {

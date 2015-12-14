@@ -430,5 +430,10 @@ namespace Mcts
         {
             return this->_chessBoard;
         };
+
+        std::string ChessGameState::getGameRepresentation(void)
+        {
+            return Mcts::Utils::ChessBoardRepresentations::ChessBoardRepresentation(this->_chessBoard);
+        }
     }
 }

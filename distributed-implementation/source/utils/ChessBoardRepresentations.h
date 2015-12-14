@@ -13,7 +13,7 @@ namespace Mcts
     {
         namespace ChessBoardRepresentations
         {
-            std::string ChessBoardRepresentations(std::unordered_map<std::string, std::string> chessBoard);
+            std::string ChessBoardRepresentation(std::unordered_map<std::string, std::string> chessBoard);
             void PrintOutChessBoard(std::unordered_map<std::string, std::string> chessBoard);
         };
     }

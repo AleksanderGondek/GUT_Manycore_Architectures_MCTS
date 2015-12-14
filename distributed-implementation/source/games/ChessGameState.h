@@ -6,6 +6,7 @@
 #define GUT_MANYCORE_ARCHITECTURES_MCTS_CHESSGAMESTATE_H
 
 #include "../MctsCommon.h"
+#include "../utils/ChessBoardRepresentations.h"
 #include "IGameState.h"
 
 namespace Mcts
@@ -29,7 +30,7 @@ namespace Mcts
                 unsigned long int getStateValue(unsigned short int playerId);
                 std::vector<std::string> getAvailableActions(void);
                 void performAction(std::string action);
-
+                std::string getGameRepresentation(void);
             private:
                 std::unordered_map<std::string, std::string> _chessBoard;
                 unsigned short int _lastActivePlayer;
