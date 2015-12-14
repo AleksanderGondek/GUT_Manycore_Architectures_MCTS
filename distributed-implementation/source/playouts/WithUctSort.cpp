@@ -28,15 +28,20 @@ namespace Mcts
             {
                 Mcts::Tree::Node* node = &root;
                 Mcts::GameStates::IGameState* state = rootState->clone();
+
+                std::cout << "Selection step, iteration " << i << std::endl;
                 // Selection Step
-                while(node->actionsNotTaken.empty() && !node->childNodes.empty())
+                while(node->actionsNotTaken.empty() && !node->childNodes.empty()
+                        && timeoutCounter <= maximumIterations * MCTS_DEFAULT_DECISION_TIMEOUT_MULTIPLAYER)
                 {
                     node = node->selectNextChildNode();
                     state->performAction(node->getPreviousAction());
                     timeoutCounter++;
                 }
+
+                std::cout << "Expansion step, iteration " << i << std::endl;
                 // Expansion Step
-                if(!node->actionsNotTaken.empty())
+                if(!node->actionsNotTaken.empty() && timeoutCounter <= maximumIterations * MCTS_DEFAULT_DECISION_TIMEOUT_MULTIPLAYER)
                 {
                     std::random_shuffle(node->actionsNotTaken.begin(), node->actionsNotTaken.end());
                     std::string action = node->actionsNotTaken.back();
@@ -46,8 +51,10 @@ namespace Mcts
                     timeoutCounter++;
                 }
 
+                std::cout << "Simulation step, iteration " << i << std::endl;
                 // Simulation Step
-                while(!state->getAvailableActions().empty())
+                while(!state->getAvailableActions().empty() &&
+                        timeoutCounter <= maximumIterations * MCTS_DEFAULT_DECISION_TIMEOUT_MULTIPLAYER)
                 {
                     std::random_shuffle(node->actionsNotTaken.begin(), node->actionsNotTaken.end());
                     std::string action = node->actionsNotTaken.back();
@@ -56,8 +63,9 @@ namespace Mcts
                     timeoutCounter++;
                 }
 
+                std::cout << "Backpropagation step, iteration " << i << std::endl;
                 // Backpropagation Step
-                while(node->getParentNode() != NULL)
+                while(node->getParentNode())
                 {
                     node->update(state->getStateValue(node->getLastActivePlayer()));
                     node = node->getParentNode();
@@ -66,14 +74,6 @@ namespace Mcts
                 timeoutCounter++;
                 i++;
             }
-
-
-            // Tutaj jeszcze jest dobrze
-            std::sort(root.childNodes.begin(), root.childNodes.end(),
-                      Mcts::Tree::compareNodesByVisists);
-            Mcts::Tree::Node lastItemWithHighestVisits = root.childNodes.back();
-            std::cout << "Sraka makaa " <<lastItemWithHighestVisits.getPreviousAction();
-            // fasd fasf ads
 
             // Root synchronization
             std::string serialized = Mcts::Tree::Serialization::Serialize(root);

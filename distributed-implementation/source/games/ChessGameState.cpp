@@ -4,8 +4,6 @@
 
 #include "ChessGameState.h"
 
-#include "../utils/ChessBoardRepresentations.h"
-
 namespace Mcts
 {
     namespace GameStates
@@ -48,7 +46,6 @@ namespace Mcts
             std::string pieceFromPosition = action.substr(2,2);
             std::string pieceToPosition = action.substr(5,2);
             bool toPostionIsEmpty = IsBoardFieldEmpty(pieceToPosition);
-
             if(!toPostionIsEmpty)
             {
                 // TODO: Later this shoud not take place
@@ -69,6 +66,7 @@ namespace Mcts
                     }
                 }
             }
+
             // Move piece to pointed location
             this->_chessBoard[pieceToPosition] = this->_chessBoard[pieceFromPosition];
 
@@ -77,8 +75,6 @@ namespace Mcts
 
             // Change last active player
             this->setLastActivePlayer((unsigned short int)(3 - this->getLastActivePlayer()));
-
-            Mcts::Utils::ChessBoardRepresentations::PrintOutChessBoard(this->_chessBoard);
         }
 
         // This function has many uses and should be splitted into multiple

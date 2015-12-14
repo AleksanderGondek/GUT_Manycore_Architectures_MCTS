@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
         else
         {
             // Last player was no 2 so it's player 1 turn
-            action = Mcts::Playouts::getBestMoveUsingUtcSort(&gameState, 12);
+            action = Mcts::Playouts::getBestMoveUsingUtcSort(&gameState, 6);
         }
 
         if(world_rank == 0)
