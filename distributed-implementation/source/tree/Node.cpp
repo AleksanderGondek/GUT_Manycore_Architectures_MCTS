@@ -98,16 +98,21 @@ namespace Mcts
             this->_lastActivePlayer = playerId;
         }
 
-        unsigned long int Node::getWins()
+        long int Node::getWins()
         {
             return this->_wins;
         }
 
-        void Node::adjustWins(unsigned long int wins)
+        void Node::adjustWins(long int wins)
         {
             if(std::numeric_limits<unsigned long int>::max() < this->_wins + wins)
             {
                 std::cout << "Attempt to increment Wins counter above limit" << std::endl;
+                return;
+            }
+            if(std::numeric_limits<long int>::min() > this->_wins + wins)
+            {
+                std::cout << "Attempt to decrement Wins counter below limit" << std::endl;
                 return;
             }
 

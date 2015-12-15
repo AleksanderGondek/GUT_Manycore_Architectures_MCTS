@@ -48,7 +48,7 @@ namespace Mcts
 
                 int readInCounter = 0;
                 std::string previousAction = MCTS_ACTION_NOT_AVAILABLE;
-                unsigned long int wins = 0;
+                long int wins = 0;
                 unsigned long int visits = 0;
                 std::vector<std::string> actionsNotTaken;
 

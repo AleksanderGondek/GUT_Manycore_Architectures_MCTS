@@ -25,14 +25,23 @@ namespace Mcts
             this->_chessBoard = chessBoard;
         }
 
-        unsigned long int ChessGameState::getStateValue(unsigned short int playerId)
+        long int ChessGameState::getStateValue(unsigned short int playerId)
         {
             if(playerId == MCTS_PLAYER_ONE_ID)
             {
+                if(this->_playerOneKingDown)
+                {
+                    return -1;
+                }
+
                 return this->_playerTwoKingDown ? 1 : 0;
             }
             else if(playerId == MCTS_PLAYER_TWO_ID)
             {
+                if(this->_playerTwoKingDown)
+                {
+                    return -1;
+                }
                 return this->_playerOneKingDown ? 1 : 0;
             }
 

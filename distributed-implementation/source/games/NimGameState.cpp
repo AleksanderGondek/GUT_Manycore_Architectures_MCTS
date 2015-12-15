@@ -55,7 +55,7 @@ namespace Mcts
             return actions;
         }
 
-        unsigned long int NimGameState::getStateValue(unsigned short int playerId)
+        long int NimGameState::getStateValue(unsigned short int playerId)
         {
             return this->_lastActivePlayer == playerId ? 1 : 0;
         }

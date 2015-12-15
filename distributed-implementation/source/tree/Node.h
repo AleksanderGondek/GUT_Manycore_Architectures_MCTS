@@ -24,8 +24,8 @@ namespace Mcts
                 std::string getPreviousAction(void);
                 unsigned short int getLastActivePlayer(void);
                 void setLastActivePlayer(unsigned short int playerId);
-                unsigned long int getWins(void);
-                void adjustWins(unsigned long int wins);
+                long int getWins(void);
+                void adjustWins(long int wins);
                 unsigned long int getVisits(void);
                 void adjustVisits(unsigned long int visits);
 
@@ -37,7 +37,7 @@ namespace Mcts
                 Node*_parentNode;
                 std::string _previousAction;
                 unsigned short int _lastActivePlayer;
-                unsigned long int _wins;
+                long int _wins;
                 unsigned long int _visits;
         };
 

@@ -24,7 +24,7 @@ namespace Mcts
                 unsigned short int getLastActivePlayer(void);
                 void setLastActivePlayer(unsigned short int playerId);
 
-                unsigned long int getStateValue(unsigned short int playerId);
+                long int getStateValue(unsigned short int playerId);
                 std::vector<std::string> getAvailableActions(void);
                 void performAction(std::string action);
                 std::string getGameRepresentation(void);

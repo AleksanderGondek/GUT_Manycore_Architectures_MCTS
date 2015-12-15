@@ -29,7 +29,7 @@ namespace Mcts
                 Mcts::Tree::Node* node = &root;
                 Mcts::GameStates::IGameState* state = rootState->clone();
 
-                std::cout << "Selection step, iteration " << i << std::endl;
+                //std::cout << "Selection step, iteration " << i << std::endl;
                 // Selection Step
                 while(node->actionsNotTaken.empty() && !node->childNodes.empty()
                         && timeoutCounter <= maximumIterations * MCTS_DEFAULT_DECISION_TIMEOUT_MULTIPLAYER)
@@ -39,7 +39,7 @@ namespace Mcts
                     timeoutCounter++;
                 }
 
-                std::cout << "Expansion step, iteration " << i << std::endl;
+                //std::cout << "Expansion step, iteration " << i << std::endl;
                 // Expansion Step
                 if(!node->actionsNotTaken.empty() && timeoutCounter <= maximumIterations * MCTS_DEFAULT_DECISION_TIMEOUT_MULTIPLAYER)
                 {
@@ -50,7 +50,7 @@ namespace Mcts
                     timeoutCounter++;
                 }
 
-                std::cout << "Simulation step, iteration " << i << std::endl;
+                //std::cout << "Simulation step, iteration " << i << std::endl;
                 // Simulation Step
                 while(!state->getAvailableActions().empty() &&
                         timeoutCounter <= maximumIterations * MCTS_DEFAULT_DECISION_TIMEOUT_MULTIPLAYER)
@@ -62,7 +62,7 @@ namespace Mcts
                     timeoutCounter++;
                 }
 
-                std::cout << "Backpropagation step, iteration " << i << std::endl;
+                //std::cout << "Backpropagation step, iteration " << i << std::endl;
                 // Backpropagation Step
                 while(node->getParentNode())
                 {

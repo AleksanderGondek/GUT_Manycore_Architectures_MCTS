@@ -46,8 +46,6 @@ int main(int argc, char* argv[])
             Mcts::Parsers::ChessGame::LoadChessBoard(
                     "/home/agondek/GUT/GUT_Manycore_Architectures_MCTS/distributed-implementation/example_input.txt");
     Mcts::GameStates::ChessGameState gameState(2, test);
-//    Mcts::Utils::ChessBoardRepresentations::PrintOutChessBoard(test);
-//    return 0;
 
     // Initialize the MPI environment
     MPI_Init(NULL, NULL);
@@ -64,6 +62,12 @@ int main(int argc, char* argv[])
 
     while (!gameState.getAvailableActions().empty())
     {
+        if(world_rank == 0)
+        {
+            std::cout << "Board before taking move:" << std::endl;
+            std::cout << gameState.getGameRepresentation() << std::endl;
+        }
+
         std::string action;
         if (gameState.getLastActivePlayer() == MCTS_PLAYER_ONE_ID)
         {
@@ -73,7 +77,7 @@ int main(int argc, char* argv[])
         else
         {
             // Last player was no 2 so it's player 1 turn
-            action = Mcts::Playouts::getBestMoveUsingUtcSort(&gameState, 6);
+            action = Mcts::Playouts::getBestMoveUsingUtcSort(&gameState, 12);
         }
 
         if(world_rank == 0)
@@ -86,6 +90,11 @@ int main(int argc, char* argv[])
         if(action != MCTS_ACTION_NOT_AVAILABLE)
         {
             gameState.performAction(action);
+            if(world_rank == 0)
+            {
+                std::cout << "Board after taking move:" << std::endl;
+                std::cout << gameState.getGameRepresentation() << std::endl;
+            }
         }
     }
 
