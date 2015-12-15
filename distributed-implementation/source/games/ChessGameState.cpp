@@ -104,7 +104,6 @@ namespace Mcts
             for (std::unordered_map<std::string, std::string>::iterator it = this->_chessBoard.begin();
                  it != this->_chessBoard.end(); ++it)
             {
-                std::cout << it->first << " ! " << it->second << std::endl;
                 std::vector<std::string> newActions = this->getAvailableActions(it->first, it->second);
                 availableActions.insert(
                         availableActions.end(),
