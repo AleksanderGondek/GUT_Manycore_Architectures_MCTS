@@ -16,6 +16,31 @@ int main(int argc, char* argv[])
     // First param is the name of the program being run
     // (due to call: mpirun -np 2 program-name
 
+//    std::unordered_map<std::string, std::string> test_map;
+//    test_map["test_key_1"] = "test_value_1";
+//    test_map["test_key_2"] = "test_value_2";
+//
+//    std::cout <<  "'test_key_1' value: " << test_map["test_key_1"] << std::endl; // This returns "test_value_1"
+//    std::cout << "test_map size before erase: " << test_map.size() << std::endl; // This returns 2
+//
+//    test_map.erase("test_key_1");
+//
+//    std::cout << "test_map size after erase: " << test_map.size() << std::endl; // This returns 1
+//    //std::cout << "'test_key_1' value after erase: " << test_map["test_key_1"] << std::endl; // This returns empty string
+//    //std::cout << "'non_existing_key' value: " << test_map["non_existing_key"] << std::endl; // This returns empty string
+//
+//    test_map.rehash(test_map.size()); // I am doing this because vague hints from internet, code behaves
+//                                      // same way without it.
+//
+//    for (std::unordered_map<std::string, std::string>::iterator it = test_map.begin();
+//         it != test_map.end(); ++it)
+//    {
+//        std::cout << "Key: " << it->first << std::endl;
+//    }
+//    // Above loop return both 'test_key_1' and 'test_key_2'.
+//    // WHY!?
+//
+//    return 0;
 //    tmp bs
     std::unordered_map<std::string, std::string> test =
             Mcts::Parsers::ChessGame::LoadChessBoard(
@@ -39,7 +64,6 @@ int main(int argc, char* argv[])
 
     while (!gameState.getAvailableActions().empty())
     {
-        std::cout << "SIZE is " << gameState.getAvailableActions().size() << std::endl;
         std::string action;
         if (gameState.getLastActivePlayer() == MCTS_PLAYER_ONE_ID)
         {
