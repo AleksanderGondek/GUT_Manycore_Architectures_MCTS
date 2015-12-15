@@ -93,6 +93,7 @@ namespace Mcts
         // And again: for now, we are not checking for checks - whatever happens, happens
         std::vector<std::string> ChessGameState::getAvailableActions(void)
         {
+            unsigned short int currentPlayer = (unsigned short int)(3 - this->_lastActivePlayer);
             std::vector<std::string> availableActions;
             // If king is down, game is over, no further moves are permitted
             if(this->_playerOneKingDown || this->_playerTwoKingDown)
@@ -104,6 +105,18 @@ namespace Mcts
             for (std::unordered_map<std::string, std::string>::iterator it = this->_chessBoard.begin();
                  it != this->_chessBoard.end(); ++it)
             {
+                std::string pieceData = it->second;
+
+                // Assert pieceData is well formated and not empty
+                assert(!pieceData.empty() && pieceData.length() == 3
+                       && "Calculate all actions pieceData is malformed or empty");
+
+                if(pieceData.substr(0,1) != std::to_string(currentPlayer))
+                {
+                    // We want to return actions only for current player
+                    continue;
+                }
+
                 std::vector<std::string> newActions = this->getAvailableActions(it->first, it->second);
                 availableActions.insert(
                         availableActions.end(),
