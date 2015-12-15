@@ -35,7 +35,7 @@
 #define MCTS_CHESS_GAME_PIECE_KING "K"
 #define MCTS_CHESS_GAME_PIECE_UNKNOWN "X"
 
-#define MCTS_DEFAULT_DECISION_TIMEOUT_MULTIPLAYER 4096
+#define MCTS_DEFAULT_DECISION_TIMEOUT_MULTIPLAYER 512
 //4096
 // Maximum 'ticks' that can be spend on decition in MCTS are
 // counted as (number of iterations) x (MCTS_DEFAULT_DECISION_TIMEOUT_MULTIPLAYER)

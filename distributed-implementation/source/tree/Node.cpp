@@ -71,7 +71,7 @@ namespace Mcts
             return &this->childNodes.back();
         }
 
-        void Node::update(unsigned long int value)
+        void Node::update(long int value)
         {
             this->adjustVisits(1);
             this->adjustWins(value);

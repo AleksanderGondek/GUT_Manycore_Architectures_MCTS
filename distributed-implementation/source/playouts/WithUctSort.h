@@ -18,7 +18,8 @@ namespace Mcts
     namespace Playouts
     {
         std::string getBestMoveUsingUtcSort(Mcts::GameStates::IGameState* rootState,
-                                            int maximumIterations);
+                                            int maximumIterations,
+                                            bool useParallelization);
     }
 }
 

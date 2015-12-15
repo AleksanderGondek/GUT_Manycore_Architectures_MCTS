@@ -32,7 +32,7 @@ namespace Mcts
                 Node* selectNextChildNode(void);
                 Node* addChildNode(std::string action, GameStates::IGameState* state);
 
-                void update(unsigned long int value);
+                void update(long int value);
             private:
                 Node*_parentNode;
                 std::string _previousAction;
