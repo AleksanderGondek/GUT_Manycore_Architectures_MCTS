@@ -22,7 +22,6 @@ namespace Mcts
 
                 // Important: This needs to be set for ChessGame state to work!
                 void setChessBoard(std::unordered_map<std::string, std::string> chessBoard);
-                std::unordered_map<std::string, std::string> getChessBoard(void);
 
                 unsigned short int getLastActivePlayer(void);
                 void setLastActivePlayer(unsigned short int playerId);

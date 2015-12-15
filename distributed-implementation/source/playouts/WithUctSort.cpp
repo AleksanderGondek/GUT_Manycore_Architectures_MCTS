@@ -56,23 +56,10 @@ namespace Mcts
                 while(!state->getAvailableActions().empty() &&
                         timeoutCounter <= maximumIterations * MCTS_DEFAULT_DECISION_TIMEOUT_MULTIPLAYER)
                 {
-                    node->actionsNotTaken = state->getAvailableActions();
-
-                    std::cout << "Before " << std::endl;
-                    std::cout << state->getGameRepresentation() << std::endl;
-                    std::cout << "State Actions count " << state->getAvailableActions().size() << std::endl;
-                    std::cout << "Node actions count " << node->actionsNotTaken.size() << std::endl;
-
+                    //node->actionsNotTaken = state->getAvailableActions();
                     std::random_shuffle(node->actionsNotTaken.begin(), node->actionsNotTaken.end());
                     std::string action = node->actionsNotTaken.back();
-
-                    std::cout << "Action " << action << std::endl;
-
                     state->performAction(action);
-
-                    std::cout << "After " << std::endl;
-                    std::cout << state->getGameRepresentation() << std::endl;
-
                     timeoutCounter++;
                 }
 

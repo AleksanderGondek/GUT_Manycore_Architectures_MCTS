@@ -7,6 +7,7 @@
 
 // Includes from standard libraries
 #include <algorithm>
+#include <assert.h>
 #include <bits/stl_vector.h>
 #include <cmath>
 #include <iostream>

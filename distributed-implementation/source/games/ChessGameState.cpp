@@ -41,6 +41,11 @@ namespace Mcts
 
         void ChessGameState::performAction(std::string action)
         {
+            // Make sure that we are not trying to perform empty action
+            assert(action != NULL && !action.empty() && "Attempt to perform empty action");
+            // Make sure that we are not trying to perform malformed action
+            assert(action.length() == 7 && "Attempt to malformed action");
+
             // Because of format '{playerId}>{fromPostion}>{toPostion}'
             // i.e. 1>1A>1B
             std::string pieceFromPosition = action.substr(2,2);
@@ -51,6 +56,12 @@ namespace Mcts
                 // TODO: Later this shoud not take place
                 // But for now game ends when king is dead
                 std::string pieceToData = this->_chessBoard[pieceToPosition];
+
+                // Make sure that data from chessBoard is not empty
+                // (This is a strange bug that keeps happening)
+                assert(pieceToData != NULL && !pieceToData.empty() && "Attempt to move piece to "
+                                                                              "malformed empty space");
+
                 std::string pieceType = pieceToData.substr(2, 1);
                 if (pieceType == MCTS_CHESS_GAME_PIECE_KING)
                 {
@@ -89,7 +100,7 @@ namespace Mcts
                 return std::vector<std::string>();
             }
 
-            // Calculate all actionsr
+            // Calculate all actions
             for (std::unordered_map<std::string, std::string>::iterator it = this->_chessBoard.begin();
                  it != this->_chessBoard.end(); ++it)
             {
@@ -107,10 +118,17 @@ namespace Mcts
         std::vector<std::string> ChessGameState::getAvailableActions(std::string piecePosition,
                                                                      std::string pieceData)
         {
-            if(pieceData.empty())
-            {
-                return std::vector<std::string>();
-            }
+            // Make sure that we are working on existing data
+            assert(piecePosition != NULL && !piecePosition.empty()
+                   && "Attempt to get actions with empty position string");
+            assert(pieceData != NULL && !pieceData.empty()
+                   && "Attempt to get actions with empty pieceData string");
+            // Make sure that piece data is in a correct format
+            assert(pieceData.length() == 3
+                   && "Attempt to get actions with malformed pieceData string");
+            // Make sure that piece positio nis in correct format
+            assert(pieceData.length() == 2
+                   && "Attempt to get actions with malformed position string");
 
             std::string pieceType = pieceData.substr(2,1);
             if(MCTS_CHESS_GAME_PIECE_PAWN == pieceType)
@@ -138,6 +156,9 @@ namespace Mcts
                 return this->GetKingPossibleMoves(piecePosition, pieceData);
             }
 
+
+            // We should never come in here
+            assert(false && "Reached get actions code that is passed all normal actions");
             return std::vector<std::string>();
         }
 
@@ -156,7 +177,30 @@ namespace Mcts
             int numberIndexMax = (posIndex + 1) <= 8 ? posIndex + 1 : posIndex;
             // make sure that letterIndex is not smaller than 'A'
             char letterIndex = (posLetter - 1) >= 'A' ? posLetter - 1 : posLetter;
-            char letterIndexMax = (posLetter + 1) <= 'Z' ? posLetter + 1 : posLetter;
+            char letterIndexMax = (posLetter + 1) <= 'H' ? posLetter + 1 : posLetter;
+
+            // Make sure that posLetter is correct
+            assert(posLetter >= 'A' && posLetter <= 'H'
+                   && "Get King moves, posLetter outisde bonds");
+            // Make sure that posIndex is correct
+            assert(posIndex >= 1 && posIndex <= 8
+                   && "Get King moves, posIndex outisde bonds");
+            // Make sure that controllingPLayer is correct
+            assert((controlingPlayer == MCTS_PLAYER_ONE_ID ||
+                    controlingPlayer == MCTS_PLAYER_TWO_ID)
+                   && "Get King moves, invalid controlling player");
+            // Make sure that numberIndex is correct
+            assert(numberIndex >= 1 && numberIndex <= 8
+                   && "Get King moves, numberIndex outisde bonds");
+            // Make sure that numberIndexMax is correct
+            assert(numberIndexMax >= 1 && numberIndexMax <= 8
+                   && "Get King moves, numberIndexMax outisde bonds");
+            // Make sure that letterIndex is correct
+            assert(letterIndex >= 'A' && letterIndex <= 'H'
+                   && "Get King moves, posLetter outisde bonds");
+            // Make sure that letterIndexMax is correct
+            assert(letterIndexMax >= 'A' && letterIndexMax <= 'H'
+                   && "Get King moves, posLetter outisde bonds");
 
             // Check 1x1 square around king for possible moves
             while(numberIndex <= numberIndexMax)
@@ -180,8 +224,19 @@ namespace Mcts
                     else
                     {
                         std::string pieceToBeTaken = this->_chessBoard[newPosition];
+
+                        // Make sure that data from newPostion is valid and dnot empty
+                        assert(pieceToBeTaken != NULL && !pieceToBeTaken.empty()
+                               && pieceToBeTaken.length() == 3
+                               && "Get King moves attempted to read empty data for board position");
+
                         unsigned short int pieceToBeTakenOwnerId = (unsigned short int)
                                 std::strtoul(pieceToBeTaken.substr(0,1).c_str(), 0, 10);
+
+                        // Make sure that ownerId is correct
+                        assert((pieceToBeTakenOwnerId == MCTS_PLAYER_ONE_ID ||
+                                pieceToBeTakenOwnerId == MCTS_PLAYER_TWO_ID)
+                               && "Get King moves, invalid pieceToBeTakenOwnerId");
 
                         // If occupied place is not owned by same player
                         if(pieceToBeTakenOwnerId != controlingPlayer)
@@ -213,6 +268,15 @@ namespace Mcts
             // Because pawnData '1:R'
             int controlingPlayer = atoi(&pawnData[0]);
 
+            // Make sure that posLetter is correct
+            assert(posLetter >= 'A' && posLetter <= 'H'
+                   && "Get pawn moves, posLetter outisde bonds");
+            assert(newPosLetter >= 'A' && newPosLetter <= 'H'
+                   && "Get pawn moves, newPosLetter outisde bonds");
+            // Make sure that controllingPLayer is correct
+            assert((controlingPlayer == MCTS_PLAYER_ONE_ID ||
+                    controlingPlayer == MCTS_PLAYER_TWO_ID)
+                   && "Get pawn moves, invalid controlling player");
 
             // Pawns of player 1 move from index 1st towards 8th index,
             // pawns of player 2 move from index 8th towards 1st index
@@ -246,8 +310,19 @@ namespace Mcts
                         if(!this->IsBoardFieldEmpty(newPosition))
                         {
                             std::string pieceToBeTaken = this->_chessBoard[newPosition];
+
+                            // Make sure that data from newPostion is valid and dnot empty
+                            assert(pieceToBeTaken != NULL && !pieceToBeTaken.empty()
+                                   && pieceToBeTaken.length() == 3
+                                   && "Get pawn moves, for player 1, <= H attempted to read empty data for board position");
+
                             unsigned short int pieceToBeTakenOwnerId = (unsigned short int)
                                     std::strtoul(pieceToBeTaken.substr(0,1).c_str(), 0, 10);
+
+                            // Make sure that ownerId is correct
+                            assert((pieceToBeTakenOwnerId == MCTS_PLAYER_ONE_ID ||
+                                    pieceToBeTakenOwnerId == MCTS_PLAYER_TWO_ID)
+                                   && "Get pawn moves, for player 1, <= H, invalid pieceToBeTakenOwnerId");
 
                             if(pieceToBeTakenOwnerId != MCTS_PLAYER_ONE_ID)
                             {
@@ -275,8 +350,19 @@ namespace Mcts
                             if(!this->IsBoardFieldEmpty(newPosition))
                             {
                                 std::string pieceToBeTaken = this->_chessBoard[newPosition];
+
+                                // Make sure that data from newPostion is valid and dnot empty
+                                assert(pieceToBeTaken != NULL && !pieceToBeTaken.empty()
+                                       && pieceToBeTaken.length() == 3
+                                       && "Get pawn moves, for player 1, >= A attempted to read empty data for board position");
+
                                 unsigned short int pieceToBeTakenOwnerId = (unsigned short int)
                                         std::strtoul(pieceToBeTaken.substr(0,1).c_str(), 0, 10);
+
+                                // Make sure that ownerId is correct
+                                assert((pieceToBeTakenOwnerId == MCTS_PLAYER_ONE_ID ||
+                                        pieceToBeTakenOwnerId == MCTS_PLAYER_TWO_ID)
+                                       && "Get pawn moves, for player 1, >= A, invalid pieceToBeTakenOwnerId");
 
                                 if(pieceToBeTakenOwnerId != MCTS_PLAYER_ONE_ID)
                                 {
@@ -323,8 +409,19 @@ namespace Mcts
                         if(!this->IsBoardFieldEmpty(newPosition))
                         {
                             std::string pieceToBeTaken = this->_chessBoard[newPosition];
+
+                            // Make sure that data from newPostion is valid and dnot empty
+                            assert(pieceToBeTaken != NULL && !pieceToBeTaken.empty()
+                                   && pieceToBeTaken.length() == 3
+                                   && "Get pawn moves, for player 2, <= H attempted to read empty data for board position");
+
                             unsigned short int pieceToBeTakenOwnerId = (unsigned short int)
                                     std::strtoul(pieceToBeTaken.substr(0,1).c_str(), 0, 10);
+
+                            // Make sure that ownerId is correct
+                            assert((pieceToBeTakenOwnerId == MCTS_PLAYER_ONE_ID ||
+                                    pieceToBeTakenOwnerId == MCTS_PLAYER_TWO_ID)
+                                   && "Get pawn moves, for player 2, <= H, invalid pieceToBeTakenOwnerId");
 
                             if(pieceToBeTakenOwnerId != MCTS_PLAYER_ONE_ID)
                             {
@@ -352,8 +449,19 @@ namespace Mcts
                             if(!this->IsBoardFieldEmpty(newPosition))
                             {
                                 std::string pieceToBeTaken = this->_chessBoard[newPosition];
+
+                                // Make sure that data from newPostion is valid and dnot empty
+                                assert(pieceToBeTaken != NULL && !pieceToBeTaken.empty()
+                                       && pieceToBeTaken.length() == 3
+                                       && "Get pawn moves, for player 2, >= A attempted to read empty data for board position");
+
                                 unsigned short int pieceToBeTakenOwnerId = (unsigned short int)
                                         std::strtoul(pieceToBeTaken.substr(0,1).c_str(), 0, 10);
+
+                                // Make sure that ownerId is correct
+                                assert((pieceToBeTakenOwnerId == MCTS_PLAYER_ONE_ID ||
+                                        pieceToBeTakenOwnerId == MCTS_PLAYER_TWO_ID)
+                                       && "Get pawn moves, for player 2, >= A, invalid pieceToBeTakenOwnerId");
 
                                 if(pieceToBeTakenOwnerId != MCTS_PLAYER_ONE_ID)
                                 {
@@ -412,6 +520,9 @@ namespace Mcts
 
         bool ChessGameState::IsBoardFieldEmpty(std::string position)
         {
+            // Make sure we are not trying to find data for empty postion
+            assert(position != NULL && !position.empty() && position.length() == 2
+                   && "Attempt to check if board field is empty for invalid position");
             return this->_chessBoard.find(position) == this->_chessBoard.end();
         }
 
@@ -425,11 +536,6 @@ namespace Mcts
         {
             this->_lastActivePlayer = playerId;
         }
-
-        std::unordered_map<std::string, std::string> ChessGameState::getChessBoard(void)
-        {
-            return this->_chessBoard;
-        };
 
         std::string ChessGameState::getGameRepresentation(void)
         {
