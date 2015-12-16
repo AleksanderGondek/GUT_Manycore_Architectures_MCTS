@@ -33,12 +33,12 @@ namespace Mcts
                 Node* addChildNode(std::string action, GameStates::IGameState* state);
 
                 void update(long int value);
+                unsigned long int _visits;
             private:
                 Node*_parentNode;
                 std::string _previousAction;
                 unsigned short int _lastActivePlayer;
                 long int _wins;
-                unsigned long int _visits;
         };
 
         bool compareTwoNodesWithUcb(Mcts::Tree::Node &node1, Mcts::Tree::Node &node2);
