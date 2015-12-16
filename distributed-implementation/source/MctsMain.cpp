@@ -82,21 +82,22 @@ int main(int argc, char* argv[])
 
 //        ctr++;
 //        allProcFinished = ctr == 100;
-//        finished = gameState.getAvailableActions().empty();
-        //Hax
         finished = gameState.getAvailableActions().empty();
-        int toSend[1];
-        toSend[0] = finished;
-        //std::cout << "proc " << world_rank << "before all" << std::endl;
-        MPI_Allgather(toSend, 1, MPI::INT,
-                      rcv_buff, 1, MPI::INT,
-                      MPI_COMM_WORLD);
-        //std::cout << "proc " << world_rank << "after all" << std::endl;
-        allProcFinished = true;
-        for(int z = 0; z < (1 * world_size); z++)
-        {
-            allProcFinished = allProcFinished && rcv_buff[z];
-        }
+        allProcFinished = finished;
+        //Hax
+//        finished = gameState.getAvailableActions().empty();
+//        int toSend[1];
+//        toSend[0] = finished;
+//        //std::cout << "proc " << world_rank << "before all" << std::endl;
+//        MPI_Allgather(toSend, 1, MPI::INT,
+//                      rcv_buff, 1, MPI::INT,
+//                      MPI_COMM_WORLD);
+//        //std::cout << "proc " << world_rank << "after all" << std::endl;
+//        allProcFinished = true;
+//        for(int z = 0; z < (1 * world_size); z++)
+//        {
+//            allProcFinished = allProcFinished && rcv_buff[z];
+//        }
     }
 
     if(world_rank == 0)
@@ -110,7 +111,6 @@ int main(int argc, char* argv[])
             std::cout << 3 - gameState.getLastActivePlayer() << " wins" << std::endl;
         }
     }
-
     // Finalize the MPI environment.
     MPI_Finalize();
 

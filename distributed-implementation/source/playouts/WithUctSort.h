@@ -4,7 +4,7 @@
 
 #ifndef GUT_MANYCORE_ARCHITECTURES_MCTS_PLAYOUTS_H
 #define GUT_MANYCORE_ARCHITECTURES_MCTS_PLAYOUTS_H
-
+#define MCTS_CONTROL false
 #include "../MctsCommon.h"
 #include "../games/IGameState.h"
 #include "../tree/Node.h"

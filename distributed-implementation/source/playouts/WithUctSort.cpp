@@ -74,16 +74,12 @@ namespace Mcts
                 i++;
             }
 
-            if(useParallelization)
+            if(useParallelization && MCTS_CONTROL)
             {
                 //MPI_Barrier(MPI_COMM_WORLD);
                 // Root synchronization
                 std::string serialized = Mcts::Tree::Serialization::Serialize(root);
                 serialized += "#";
-//                if(world_rank == 0)
-//                {
-//                    std::cout << serialized << std::endl;
-//                }
 
                 if (serialized.length() > MCTS_DEFAULT_MESSAGE_SIZE)
                 {
@@ -118,10 +114,12 @@ namespace Mcts
                     Mcts::Tree::Merger::IncorporateRemoteNodeToLocal(&root, &remoteTree);
                 }
             }
+
             if(idleMode)
             {
                 return MCTS_ACTION_NOT_AVAILABLE;
             }
+
             std::sort(root.childNodes.begin(), root.childNodes.end(),
                       Mcts::Tree::compareNodesByVisists);
             Mcts::Tree::Node lastItemWithHighestVisits2 = root.childNodes.back();
