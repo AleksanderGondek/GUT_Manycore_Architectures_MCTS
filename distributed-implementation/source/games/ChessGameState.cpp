@@ -440,7 +440,7 @@ namespace Mcts
                                     pieceToBeTakenOwnerId == MCTS_PLAYER_TWO_ID)
                                    && "Get pawn moves, for player 2, <= H, invalid pieceToBeTakenOwnerId");
 
-                            if(pieceToBeTakenOwnerId != MCTS_PLAYER_ONE_ID)
+                            if(pieceToBeTakenOwnerId != MCTS_PLAYER_TWO_ID)
                             {
                                 std::string action = std::to_string(controlingPlayer);
                                 action += ">";
@@ -480,7 +480,7 @@ namespace Mcts
                                         pieceToBeTakenOwnerId == MCTS_PLAYER_TWO_ID)
                                        && "Get pawn moves, for player 2, >= A, invalid pieceToBeTakenOwnerId");
 
-                                if(pieceToBeTakenOwnerId != MCTS_PLAYER_ONE_ID)
+                                if(pieceToBeTakenOwnerId != MCTS_PLAYER_TWO_ID)
                                 {
                                     std::string action = std::to_string(controlingPlayer);
                                     action += ">";

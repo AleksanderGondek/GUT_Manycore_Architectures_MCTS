@@ -41,6 +41,7 @@ add_executable(GUT_Manycore_Architectures_MCTS ${SOURCE_FILES})
 target_link_libraries(GUT_Manycore_Architectures_MCTS ${MPI_LIBRARIES})
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "distributed-implementation/runnable/")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
 if(MPI_COMPILE_FLAGS)
     set_target_properties(GUT_Manycore_Architectures_MCTS PROPERTIES
             COMPILE_FLAGS "${MPI_COMPILE_FLAGS}")

@@ -25,6 +25,10 @@ int main(int argc, char* argv[])
     // Initialize the MPI environment
     MPI_Init(NULL, NULL);
 
+    // Get the number of processes
+    int world_size;
+    MPI_Comm_size(MPI_COMM_WORLD, &world_size);
+
     // Get the rank of the process
     int world_rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
@@ -35,7 +39,11 @@ int main(int argc, char* argv[])
     // Mcts::GameStates::NimGameState gameState(2,400);
     // Mcts::GameStates::NimGameState gameState(MCTS_PLAYER_TWO_ID, 400);
 
-    while (!gameState.getAvailableActions().empty())
+    bool allProcFinished = false;
+    bool finished = false;
+    int rcv_buff[2 * world_size];
+    int ctr = 0;
+    while (!gameState.getAvailableActions().empty() || !allProcFinished)
     {
         if(world_rank == 0)
         {
@@ -43,18 +51,16 @@ int main(int argc, char* argv[])
             std::cout << gameState.getGameRepresentation() << std::endl;
         }
 
-        //MPI_Barrier(MPI_COMM_WORLD);
-
         std::string action;
         if (gameState.getLastActivePlayer() == MCTS_PLAYER_ONE_ID)
         {
             // Last player was no 1, so it's player 2 turn
-            action = Mcts::Playouts::getBestMoveUsingUtcSort(&gameState, 12, false);
+            action = Mcts::Playouts::getBestMoveUsingUtcSort(&gameState, 20, false, finished);
         }
         else
         {
             // Last player was no 2 so it's player 1 turn
-            action = Mcts::Playouts::getBestMoveUsingUtcSort(&gameState, 12, true);
+            action = Mcts::Playouts::getBestMoveUsingUtcSort(&gameState, 20, true, finished);
         }
 
         if(world_rank == 0)
@@ -63,8 +69,7 @@ int main(int argc, char* argv[])
             std::endl;
         }
 
-
-        if(action != MCTS_ACTION_NOT_AVAILABLE)
+        if(action != MCTS_ACTION_NOT_AVAILABLE && !finished)
         {
             gameState.performAction(action);
             if(world_rank == 0)
@@ -72,6 +77,25 @@ int main(int argc, char* argv[])
                 std::cout << "Board after taking move:" << std::endl;
                 std::cout << gameState.getGameRepresentation() << std::endl;
             }
+        }
+
+
+//        ctr++;
+//        allProcFinished = ctr == 100;
+//        finished = gameState.getAvailableActions().empty();
+        //Hax
+        finished = gameState.getAvailableActions().empty();
+        int toSend[1];
+        toSend[0] = finished;
+        //std::cout << "proc " << world_rank << "before all" << std::endl;
+        MPI_Allgather(toSend, 1, MPI::INT,
+                      rcv_buff, 1, MPI::INT,
+                      MPI_COMM_WORLD);
+        //std::cout << "proc " << world_rank << "after all" << std::endl;
+        allProcFinished = true;
+        for(int z = 0; z < (1 * world_size); z++)
+        {
+            allProcFinished = allProcFinished && rcv_buff[z];
         }
     }
 

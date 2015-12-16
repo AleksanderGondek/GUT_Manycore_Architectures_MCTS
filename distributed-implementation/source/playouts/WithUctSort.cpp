@@ -10,7 +10,8 @@ namespace Mcts
     {
         std::string getBestMoveUsingUtcSort(Mcts::GameStates::IGameState* rootState,
                                             int maximumIterations,
-                                            bool useParallelization)
+                                            bool useParallelization,
+                                            bool idleMode)
         {
             // Get the id of current process
             int world_rank;
@@ -25,12 +26,12 @@ namespace Mcts
             Mcts::Tree::Node root(MCTS_ACTION_NOT_AVAILABLE, NULL, rootState);
 
             while(i<maximumIterations &&
-                    timeoutCounter <= maximumIterations * MCTS_DEFAULT_DECISION_TIMEOUT_MULTIPLAYER)
+                    timeoutCounter <= maximumIterations * MCTS_DEFAULT_DECISION_TIMEOUT_MULTIPLAYER
+                    && !idleMode)
             {
                 Mcts::Tree::Node* node = &root;
                 Mcts::GameStates::IGameState* state = rootState->clone();
 
-                //std::cout << "Selection step, iteration " << i << std::endl;
                 // Selection Step
                 while(node->actionsNotTaken.empty() && !node->childNodes.empty()
                         && timeoutCounter <= maximumIterations * MCTS_DEFAULT_DECISION_TIMEOUT_MULTIPLAYER)
@@ -40,7 +41,6 @@ namespace Mcts
                     timeoutCounter++;
                 }
 
-                //std::cout << "Expansion step, iteration " << i << std::endl;
                 // Expansion Step
                 if(!node->actionsNotTaken.empty() && timeoutCounter <= maximumIterations * MCTS_DEFAULT_DECISION_TIMEOUT_MULTIPLAYER)
                 {
@@ -52,7 +52,6 @@ namespace Mcts
                     timeoutCounter++;
                 }
 
-                //std::cout << "Simulation step, iteration " << i << std::endl;
                 // Simulation Step
                 while(!state->getAvailableActions().empty() &&
                         timeoutCounter <= maximumIterations * MCTS_DEFAULT_DECISION_TIMEOUT_MULTIPLAYER)
@@ -64,9 +63,8 @@ namespace Mcts
                     timeoutCounter++;
                 }
 
-                //std::cout << "Backpropagation step, iteration " << i << std::endl;
                 // Backpropagation Step
-                while(node->getParentNode())
+                while(node->getParentNode() != NULL)
                 {
                     node->update(state->getStateValue(node->getLastActivePlayer()));
                     node = node->getParentNode();
@@ -78,9 +76,15 @@ namespace Mcts
 
             if(useParallelization)
             {
+                //MPI_Barrier(MPI_COMM_WORLD);
                 // Root synchronization
                 std::string serialized = Mcts::Tree::Serialization::Serialize(root);
                 serialized += "#";
+//                if(world_rank == 0)
+//                {
+//                    std::cout << serialized << std::endl;
+//                }
+
                 if (serialized.length() > MCTS_DEFAULT_MESSAGE_SIZE)
                 {
                     std::cout << "Error:" << serialized.length() << "/" << MCTS_DEFAULT_MESSAGE_SIZE << std::endl;
@@ -113,6 +117,10 @@ namespace Mcts
                     Mcts::Tree::Node remoteTree = Mcts::Tree::Deserialization::Deserialize(serializedTree);
                     Mcts::Tree::Merger::IncorporateRemoteNodeToLocal(&root, &remoteTree);
                 }
+            }
+            if(idleMode)
+            {
+                return MCTS_ACTION_NOT_AVAILABLE;
             }
             std::sort(root.childNodes.begin(), root.childNodes.end(),
                       Mcts::Tree::compareNodesByVisists);

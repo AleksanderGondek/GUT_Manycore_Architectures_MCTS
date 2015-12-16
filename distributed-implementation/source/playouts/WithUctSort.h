@@ -19,7 +19,8 @@ namespace Mcts
     {
         std::string getBestMoveUsingUtcSort(Mcts::GameStates::IGameState* rootState,
                                             int maximumIterations,
-                                            bool useParallelization);
+                                            bool useParallelization,
+                                            bool idleMode);
     }
 }
 

@@ -105,7 +105,7 @@ namespace Mcts
 
         void Node::adjustWins(long int wins)
         {
-            if(std::numeric_limits<unsigned long int>::max() < this->_wins + wins)
+            if(std::numeric_limits<long int>::max() < this->_wins + wins)
             {
                 std::cout << "Attempt to increment Wins counter above limit" << std::endl;
                 return;
