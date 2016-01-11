@@ -8,7 +8,6 @@
 #include "playouts/WithUctSort.h"
 
 #include "parsers/ChessGameParser.h"
-#include "utils/ChessBoardRepresentations.h"
 
 int main(int argc, char* argv[])
 {
@@ -39,11 +38,8 @@ int main(int argc, char* argv[])
     // Mcts::GameStates::NimGameState gameState(2,400);
     // Mcts::GameStates::NimGameState gameState(MCTS_PLAYER_TWO_ID, 400);
 
-    bool allProcFinished = false;
     bool finished = false;
-    int rcv_buff[2 * world_size];
-    int ctr = 0;
-    while (!gameState.getAvailableActions().empty() || !allProcFinished)
+    while (!gameState.getAvailableActions().empty())
     {
         if(world_rank == 0)
         {
@@ -69,7 +65,7 @@ int main(int argc, char* argv[])
             std::endl;
         }
 
-        if(action != MCTS_ACTION_NOT_AVAILABLE && !finished)
+        if(action != MCTS_ACTION_NOT_AVAILABLE)
         {
             gameState.performAction(action);
             if(world_rank == 0)
@@ -78,24 +74,6 @@ int main(int argc, char* argv[])
                 std::cout << gameState.getGameRepresentation() << std::endl;
             }
         }
-
-
-//        ctr++;
-//        allProcFinished = ctr == 100;
-        finished = gameState.getAvailableActions().empty();
-        allProcFinished = finished;
-        //Hax
-//        finished = gameState.getAvailableActions().empty();
-//        int toSend[1];
-//        toSend[0] = finished;
-//        MPI_Allgather(toSend, 1, MPI::INT,
-//                      rcv_buff, 1, MPI::INT,
-//                      MPI_COMM_WORLD);
-//        allProcFinished = true;
-//        for(int z = 0; z < (1 * world_size); z++)
-//        {
-//            allProcFinished = allProcFinished && rcv_buff[z];
-//        }
     }
 
     if(world_rank == 0)

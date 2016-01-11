@@ -74,7 +74,7 @@ namespace Mcts
                 i++;
             }
 
-            if(useParallelization && MCTS_CONTROL)
+            if(useParallelization)
             {
                 //MPI_Barrier(MPI_COMM_WORLD);
                 // Root synchronization
